@@ -1,6 +1,35 @@
 <template>
-  <q-table>
+  <q-table
+    class="window-height q-pa-xl"
+    :title="title"
+    title-class="text-h4"
+  >
+    <template v-slot:top-right>
+      <q-btn
+        color="primary"
+        :icon="actionButtonIcon"
+        :label="actionButtonLabel"
+        unelevated
+        no-caps
+        @click="exportTable"
+      />
+    </template>
   </q-table>
 </template>
 
-<script setup></script>
+<script setup>
+defineProps({
+  title: {
+    type: String,
+    required: true,
+  },
+  actionButtonLabel: {
+    type: String,
+    required: true,
+  },
+  actionButtonIcon: {
+    type: String,
+    required: false,
+  },
+});
+</script>

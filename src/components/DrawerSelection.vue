@@ -5,7 +5,7 @@
     exact
     active-class="text-accent"
   >
-    <div class="row q-ml-sm">
+    <div class="row q-ml-md q-py-xs">
       <q-item-section
         v-if="icon"
         avatar

@@ -12,7 +12,7 @@
         class="rounded-borders text-white full-width"
       >
         <!-- Brand -->
-        <q-item class="q-pb-sm q-ml-sm">
+        <q-item class="q-py-sm q-ml-md">
           <q-icon
             size="md"
             class="q-pr-sm"
@@ -58,17 +58,17 @@ const leftDrawerOpen = ref(true);
 
 const drawerMenuList = [
   {
-    title: 'Customers',
-    icon: 'group',
-    path: '/customers',
-  },
-  {
     title: 'Appointments',
     icon: 'calendar_month',
     path: '/appointments',
   },
   {
-    title: 'Repair Services',
+    title: 'Customers',
+    icon: 'group',
+    path: '/customers',
+  },
+  {
+    title: 'Services',
     icon: 'build',
     path: 'repair-services',
   },
