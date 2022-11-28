@@ -11,7 +11,12 @@
         :label="actionButtonLabel"
         unelevated
         no-caps
-        @click="exportTable"
+        @click="actionButtonEvent"
+        v-show="
+          actionButtonLabel && actionButtonIcon
+            ? true
+            : false
+        "
       />
     </template>
   </q-table>
@@ -32,4 +37,10 @@ defineProps({
     required: false,
   },
 });
+
+const emits = defineEmits(['actionButtonEvent']);
+
+const actionButtonEvent = () => {
+  emits('actionButtonEvent');
+};
 </script>

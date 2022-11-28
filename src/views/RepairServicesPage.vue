@@ -1,18 +1,15 @@
 <template>
-  <q-page>
-    <DataTable
-      title="Services"
-      actionButtonLabel="Add Service"
-      actionButtonIcon="add"
-      :rows="rows"
-    >
-    </DataTable>
-  </q-page>
+  <DataTableView
+    title="Services"
+    actionButtonLabel="Add Service"
+    actionButtonIcon="add"
+    :rows="rows"
+  />
 </template>
 
 <script setup>
 import { onMounted } from 'vue';
-import DataTable from '@/components/DataTable';
+import DataTableView from './DataTableView.vue';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '@/firebase';
 

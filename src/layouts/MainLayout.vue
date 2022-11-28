@@ -34,8 +34,7 @@
           v-for="link in drawerMenuList"
           :key="link.title"
           v-bind="link"
-          class=""
-        ></DrawerSelection>
+        />
       </q-list>
     </q-drawer>
 
