@@ -65,8 +65,6 @@
       path: '/discounts',
     }
   ]
-
-  console.log(drawerMenuList);
   </script>
 
 
