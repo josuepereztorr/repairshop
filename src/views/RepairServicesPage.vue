@@ -2,14 +2,63 @@
   <DataTableView
     title="Services"
     actionButtonLabel="Add Service"
-    actionButtonIcon="add"
     :rows="rows"
-  />
+  >
+    <GenericFormCard
+      title="Add Service"
+      submitLabel="Add"
+    >
+      <template #inputs>
+        <q-input
+          dense
+          autofocus
+          v-model="promoCode"
+          label="Name"
+        />
+
+        <q-input
+          dense
+          v-model="serviceTime"
+          label="Estimate Time of Completion (minutes)"
+          suffix="min"
+        />
+
+        <q-input
+          dense
+          v-model="price"
+          label="Price"
+          prefix="$"
+        />
+
+        <q-input
+          dense
+          autogrow
+          v-model="description"
+          label="Description"
+        />
+
+        <q-select
+          dense
+          transition-show="jump-up"
+          transition-hide="jump-up"
+          v-model="promoCode"
+          label="Promo Code"
+          :options="[
+            'SUMMER22',
+            'FALL22',
+            'SPRING23',
+            'WINTER23',
+          ]"
+        />
+      </template>
+    </GenericFormCard>
+  </DataTableView>
 </template>
 
 <script setup>
+import DataTableView from '@/views/DataTableView.vue';
+import GenericFormCard from '@/components/GenericFormCard.vue';
 import { onMounted } from 'vue';
-import DataTableView from './DataTableView.vue';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '@/firebase';
 

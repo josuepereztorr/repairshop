@@ -1,14 +1,12 @@
-const { defineConfig } = require('@vue/cli-service')
+const { defineConfig } = require('@vue/cli-service');
 module.exports = defineConfig({
-  transpileDependencies: [
-    'quasar'
-  ],
+  transpileDependencies: ['quasar'],
 
   pluginOptions: {
     quasar: {
       importStrategy: 'kebab',
-      rtlSupport: false
-    }
+      rtlSupport: false,
+    },
   },
   pages: {
     index: {
@@ -16,7 +14,8 @@ module.exports = defineConfig({
       template: 'public/index.html',
       filename: 'index.html',
       title: 'Primary Auto Repair - Management',
-      chunks: ['chunk-vendors', 'chunk-common', 'index']
+      chunks: ['chunk-vendors', 'chunk-common', 'index'],
     },
   },
-})
+  // publicPath: './',
+});

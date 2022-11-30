@@ -7,16 +7,12 @@
     <template v-slot:top-right>
       <q-btn
         color="primary"
-        :icon="actionButtonIcon"
+        icon="add"
         :label="actionButtonLabel"
         unelevated
         no-caps
         @click="actionButtonEvent"
-        v-show="
-          actionButtonLabel && actionButtonIcon
-            ? true
-            : false
-        "
+        v-show="actionButtonLabel ? true : false"
       />
     </template>
   </q-table>
@@ -31,10 +27,6 @@ defineProps({
   actionButtonLabel: {
     type: String,
     required: true,
-  },
-  actionButtonIcon: {
-    type: String,
-    required: false,
   },
 });
 

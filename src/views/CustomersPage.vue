@@ -1,14 +1,49 @@
 <template>
   <DataTableView
     title="Customers"
-    actionButtonLabel="Add Customer"
-    actionButtonIcon="add"
+    actionButtonLabel="Create Customer"
     :rows="rows"
-  />
+  >
+    <GenericFormCard
+      title="Create Customer"
+      submitLabel="Create"
+    >
+      <template #inputs>
+        <q-input
+          dense
+          autofocus
+          v-model="firstName"
+          label="First Name"
+        />
+
+        <q-input
+          dense
+          v-model="lastName"
+          label="Last Name"
+        />
+
+        <q-input
+          dense
+          v-model="phone"
+          label="Phone"
+          mask="(###) ### - ####"
+        />
+
+        <q-input
+          dense
+          autogrow
+          type="email"
+          v-model="email"
+          label="Email"
+        />
+      </template>
+    </GenericFormCard>
+  </DataTableView>
 </template>
 
 <script setup>
 import DataTableView from '@/views/DataTableView';
+import GenericFormCard from '@/components/GenericFormCard.vue';
 
 const rows = [
   {

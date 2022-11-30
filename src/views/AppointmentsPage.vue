@@ -2,13 +2,19 @@
   <DataTableView
     title="Appointments"
     actionButtonLabel="Create Appointment"
-    actionButtonIcon="add"
     :rows="rows"
-  />
+  >
+    <GenericFormCard
+      title="CHECK CALENDLY API"
+      submitLabel="CHECK API"
+    >
+    </GenericFormCard>
+  </DataTableView>
 </template>
 
 <script setup>
 import DataTableView from '@/views/DataTableView';
+import GenericFormCard from '@/components/GenericFormCard.vue';
 
 const rows = [
   {
