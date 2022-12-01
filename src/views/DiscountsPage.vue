@@ -27,26 +27,26 @@
           <q-input
             dense
             autofocus
-            v-model="promoCode"
+            v-model="formBody.name"
             label="Name"
           />
 
           <q-input
             dense
-            v-model="promoCode"
+            v-model="formBody.promoCode"
             label="Promo Code"
             hint="Ex. SUMMER22 "
           />
 
           <q-input
             dense
-            v-model="percentOff"
+            v-model="formBody.percentOff"
             label="Percent Off"
           />
 
           <q-input
             dense
-            v-model="date"
+            v-model="formBody.date"
           >
             <template v-slot:prepend>
               <q-icon
@@ -83,7 +83,7 @@
           <q-input
             dense
             autogrow
-            v-model="description"
+            v-model="formBody.description"
             label="Description"
           />
         </template>
@@ -93,14 +93,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import DataTableSection from '@/components/DataTable/DataTableSection.vue';
 import GenericFormCard from '@/components/GenericFormCard.vue';
 
-// modal reactivity
+// modal logic
 const isModalShowing = ref(false);
 
 const closeModal = () => {
+  formBody.name = '';
+  formBody.promoCode = '';
+  formBody.percentOff = '';
+  formBody.date = '';
+  formBody.description = '';
+
   isModalShowing.value = false;
 };
 
@@ -108,7 +114,15 @@ const openModal = () => {
   isModalShowing.value = true;
 };
 
-let date = ref('');
+// form logic
+
+const formBody = reactive({
+  name: '',
+  promoCode: '',
+  percentOff: '',
+  date: '10/21/1994',
+  description: '',
+});
 
 const rows = [
   {

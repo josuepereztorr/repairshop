@@ -26,6 +26,7 @@
             unelevated
             color="primary"
             label="Cancel"
+            type="reset"
             @click="$emit('isModalShowing')"
           />
           <q-btn
