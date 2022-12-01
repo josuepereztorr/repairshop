@@ -35,18 +35,21 @@
             dense
             v-model="formBody.promoCode"
             label="Promo Code"
-            hint="Ex. SUMMER22 "
+            hint="Ex. SUMMER22"
           />
 
           <q-input
             dense
-            v-model="formBody.percentOff"
-            label="Percent Off"
+            v-model="formBody.discountValue"
+            type="number"
+            min="0"
+            max="100"
+            label="Discount (%)"
           />
 
           <q-input
             dense
-            v-model="formBody.date"
+            v-model="formBody.validUntil"
           >
             <template v-slot:prepend>
               <q-icon
@@ -120,7 +123,7 @@ const formBody = reactive({
   name: '',
   promoCode: '',
   percentOff: '',
-  date: '10/21/1994',
+  validUntil: '10/21/1994',
   description: '',
 });
 

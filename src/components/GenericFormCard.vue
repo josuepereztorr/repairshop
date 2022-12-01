@@ -55,4 +55,6 @@ defineProps({
 });
 
 defineEmits(['isModalShowing']);
+
+const onSubmit = () => {};
 </script>
