@@ -1,5 +1,5 @@
 <template>
-  <DataTableView
+  <DataTableSection
     title="Services"
     actionButtonLabel="Add Service"
     :rows="rows"
@@ -52,11 +52,11 @@
         />
       </template>
     </GenericFormCard>
-  </DataTableView>
+  </DataTableSection>
 </template>
 
 <script setup>
-import DataTableView from '@/views/DataTableView.vue';
+import DataTableSection from '@/components/DataTable/DataTableSection.vue';
 import GenericFormCard from '@/components/GenericFormCard.vue';
 import { onMounted } from 'vue';
 import { collection, getDocs } from 'firebase/firestore';

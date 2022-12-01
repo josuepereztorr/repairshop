@@ -1,8 +1,8 @@
 <template>
   <q-card>
     <div
-      class="q-pa-lg"
       style="min-width: 450px"
+      class="q-pa-lg"
     >
       <q-toolbar class="q-pl-sm">
         <q-toolbar-title class="text-weight-medium">
@@ -14,28 +14,26 @@
         @submit.prevent="onSubmit"
         class="q-gutter-md q-px-sm q-pb-sm"
       >
-        <slot name="inputs"></slot>
-        <!-- <slot name="inputs"></slot> -->
+        <slot name="formBody"></slot>
 
         <div
           align="right"
           class="q-mt-md q-pt-lg"
         >
           <q-btn
-            label="Cancel"
             flat
             no-caps
             unelevated
             color="primary"
-            v-close-popup
+            label="Cancel"
+            @click="$emit('isModalShowing')"
           />
           <q-btn
-            :label="submitLabel"
-            type="submit"
             no-caps
             unelevated
             color="primary"
-            v-close-popup
+            :label="submitLabel"
+            type="submit"
           />
         </div>
       </q-form>
@@ -54,6 +52,6 @@ defineProps({
     required: true,
   },
 });
-</script>
 
-<style lang="scss" scoped></style>
+defineEmits(['isModalShowing']);
+</script>

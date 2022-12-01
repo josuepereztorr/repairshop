@@ -1,5 +1,5 @@
 <template>
-  <DataTableView
+  <DataTableSection
     title="Appointments"
     actionButtonLabel="Create Appointment"
     :rows="rows"
@@ -9,11 +9,11 @@
       submitLabel="CHECK API"
     >
     </GenericFormCard>
-  </DataTableView>
+  </DataTableSection>
 </template>
 
 <script setup>
-import DataTableView from '@/views/DataTableView';
+import DataTableSection from '@/components/DataTable/DataTableSection.vue';
 import GenericFormCard from '@/components/GenericFormCard.vue';
 
 const rows = [

@@ -1,5 +1,5 @@
 <template>
-  <DataTableView
+  <DataTableSection
     title="Customers"
     actionButtonLabel="Create Customer"
     :rows="rows"
@@ -38,11 +38,11 @@
         />
       </template>
     </GenericFormCard>
-  </DataTableView>
+  </DataTableSection>
 </template>
 
 <script setup>
-import DataTableView from '@/views/DataTableView';
+import DataTableSection from '@/components/DataTable/DataTableSection.vue';
 import GenericFormCard from '@/components/GenericFormCard.vue';
 
 const rows = [
