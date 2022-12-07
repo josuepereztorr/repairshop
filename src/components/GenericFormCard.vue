@@ -11,7 +11,7 @@
       </q-toolbar>
 
       <q-form
-        @submit.prevent="onSubmit"
+        @submit.prevent="$emit('formSubmit')"
         class="q-gutter-md q-px-sm q-pb-sm"
       >
         <slot name="formBody"></slot>
@@ -54,7 +54,5 @@ defineProps({
   },
 });
 
-defineEmits(['isModalShowing']);
-
-const onSubmit = () => {};
+defineEmits(['isModalShowing', 'formSubmit']);
 </script>

@@ -58,18 +58,18 @@
 <script setup>
 import DataTableSection from '@/components/DataTable/DataTableSection.vue';
 import GenericFormCard from '@/components/GenericFormCard.vue';
-import { onMounted } from 'vue';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '@/firebase';
+// import { onMounted } from 'vue';
+// import { collection, getDocs } from 'firebase/firestore';
+// import { db } from '@/firebase';
 
-onMounted(async () => {
-  const querySnapshot = await getDocs(
-    collection(db, 'services')
-  );
-  querySnapshot.forEach((doc) => {
-    console.log(doc.id, ' => ', doc.data().description);
-  });
-});
+// onMounted(async () => {
+//   const querySnapshot = await getDocs(
+//     collection(db, 'services')
+//   );
+//   querySnapshot.forEach((doc) => {
+//     console.log(doc.id, ' => ', doc.data().description);
+//   });
+// });
 
 const rows = [
   {

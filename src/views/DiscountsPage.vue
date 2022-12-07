@@ -22,6 +22,8 @@
         title="Create Discount"
         submitLabel="Create"
         @isModalShowing="closeModal"
+        @formSubmit="submitForm"
+        :isLoading="isLoading"
       >
         <template #formBody>
           <q-input
@@ -35,7 +37,7 @@
             hide-bottom-space
             lazy-rules
             name="name"
-            v-model="formBody.name"
+            v-model="discount.name"
             label="Name *"
             :rules="[maxCharAllowable(25), required()]"
           />
@@ -50,7 +52,7 @@
             hide-bottom-space
             lazy-rules
             name="promoCode"
-            v-model="formBody.promoCode"
+            v-model="discount.promoCode"
             label="Promo Code *"
             hint="Ex. SUMMER22"
             :rules="[required()]"
@@ -64,7 +66,7 @@
             lazy-rules
             name="discountValue"
             step="0.01"
-            v-model="formBody.discountValue"
+            v-model="discount.discountValue"
             type="number"
             label="Discount (%)"
             suffix="%"
@@ -74,7 +76,7 @@
           <q-input
             dense
             autocomplete="off"
-            v-model="formBody.validUntil"
+            v-model="discount.validUntil"
             name="validUntil"
           >
             <template v-slot:prepend>
@@ -89,7 +91,7 @@
                   transition-hide="scale"
                 >
                   <q-date
-                    v-model="formBody.validUntil"
+                    v-model="discount.validUntil"
                     mask="MM/DD/YYYY"
                     label="fdfjhskd"
                   >
@@ -119,7 +121,7 @@
             bottom-slots
             hide-bottom-space
             name="description"
-            v-model="formBody.description"
+            v-model="discount.description"
             label="Description"
             hint="optional"
             :rules="[maxCharAllowable(250)]"
@@ -139,7 +141,7 @@
               <q-toggle
                 dense
                 color="primary"
-                v-model="formBody.isActive"
+                v-model="discount.isActive"
               />
             </q-item-section>
           </q-item>
@@ -151,6 +153,11 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
+import {
+  db,
+  addDoc,
+  collection,
+} from '@/firebase/firebase';
 import DataTableSection from '@/components/DataTable/DataTableSection.vue';
 import GenericFormCard from '@/components/GenericFormCard.vue';
 import { getCurrentDateFormatted } from '@/utils/date';
@@ -159,18 +166,22 @@ import {
   required,
   numberRange,
 } from '@/utils/inputValidation';
+import Discount from '@/models/Discount';
+
+const discount = reactive(new Discount());
 
 // modal logic
 const isModalShowing = ref(false);
+const isLoading = ref(false);
 
 const closeModal = () => {
-  formBody.name = '';
-  formBody.promoCode = '';
-  formBody.discountValue = 0;
-  formBody.validUntil =
+  discount.name = '';
+  discount.promoCode = '';
+  discount.discountValue = 0;
+  discount.validUntil =
     getCurrentDateFormatted('MM/DD/YYYY');
-  formBody.description = '';
-  formBody.isActive = false;
+  discount.description = '';
+  discount.isActive = false;
   isModalShowing.value = false;
 };
 
@@ -178,16 +189,14 @@ const openModal = () => {
   isModalShowing.value = true;
 };
 
-// form logic
-
-const formBody = reactive({
-  name: '',
-  promoCode: '',
-  discountValue: 0,
-  validUntil: getCurrentDateFormatted('MM/DD/YYYY'),
-  description: '',
-  isActive: false,
-});
+const submitForm = () => {
+  const discountRef = collection(
+    db,
+    Discount.collectionName
+  );
+  addDoc(discountRef, discount.toFirestore());
+  closeModal();
+};
 
 const rows = [
   {

@@ -69,7 +69,7 @@ const drawerMenuList = [
   {
     title: 'Services',
     icon: 'build',
-    path: 'repair-services',
+    path: 'services',
   },
   {
     title: 'Discounts',
