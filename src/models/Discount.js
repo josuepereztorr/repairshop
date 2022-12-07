@@ -1,4 +1,4 @@
-import { getCurrentDateFormatted } from '@/utils/date';
+import { getCurrentDateFormatted } from "@/utils/date";
 
 function Discount(
   name,
@@ -8,17 +8,16 @@ function Discount(
   description,
   isActive
 ) {
-  this.id = '';
-  
-  this.name = name || '';
-  this.promoCode = promoCode || '';
+  this.id = "";
+
+  this.name = name || "";
+  this.promoCode = promoCode || "";
   this.discountValue = discountValue || 0;
-  this.validUntil =
-    validUntil || getCurrentDateFormatted('MM/DD/YYYY');
-  this.description = description || ''; // optional
+  this.validUntil = validUntil || getCurrentDateFormatted("MM/DD/YYYY");
+  this.description = description || ""; // optional
   this.isActive = isActive || false;
 
-  this._path = '';
+  this._path = "";
 
   this.toFirestore = function () {
     return {
@@ -32,7 +31,7 @@ function Discount(
   };
 }
 
-Discount.collectionName = 'discounts';
+Discount.collectionName = "discounts";
 
 Discount.fromFirestore = function (snapshot, options) {
   const data = snapshot.data(options);

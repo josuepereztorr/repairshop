@@ -80,11 +80,7 @@
             name="validUntil"
           >
             <template v-slot:prepend>
-              <q-icon
-                name="event"
-                class="cursor-pointer"
-                color="primary"
-              >
+              <q-icon name="event" class="cursor-pointer" color="primary">
                 <q-popup-proxy
                   cover
                   transition-show="scale"
@@ -95,15 +91,8 @@
                     mask="MM/DD/YYYY"
                     label="fdfjhskd"
                   >
-                    <div
-                      class="row items-center justify-end"
-                    >
-                      <q-btn
-                        v-close-popup
-                        label="Close"
-                        color="primary"
-                        flat
-                      />
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
                   </q-date>
                 </q-popup-proxy>
@@ -127,10 +116,7 @@
             :rules="[maxCharAllowable(250)]"
           />
 
-          <q-item
-            tag="label"
-            class="q-pl-none q-py-sm"
-          >
+          <q-item tag="label" class="q-pl-none q-py-sm">
             <q-item-section>
               <q-item-label>Discount Active</q-item-label>
             </q-item-section>
@@ -138,11 +124,7 @@
             <q-space />
 
             <q-item-section class="content-end">
-              <q-toggle
-                dense
-                color="primary"
-                v-model="discount.isActive"
-              />
+              <q-toggle dense color="primary" v-model="discount.isActive" />
             </q-item-section>
           </q-item>
         </template>
@@ -152,21 +134,17 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
-import {
-  db,
-  addDoc,
-  collection,
-} from '@/firebase/firebase';
-import DataTableSection from '@/components/DataTable/DataTableSection.vue';
-import GenericFormCard from '@/components/GenericFormCard.vue';
-import { getCurrentDateFormatted } from '@/utils/date';
+import { ref, reactive } from "vue";
+import { db, addDoc, collection } from "@/firebase/firebase";
+import DataTableSection from "@/components/DataTable/DataTableSection.vue";
+import GenericFormCard from "@/components/GenericFormCard.vue";
+import { getCurrentDateFormatted } from "@/utils/date";
 import {
   maxCharAllowable,
   required,
   numberRange,
-} from '@/utils/inputValidation';
-import Discount from '@/models/Discount';
+} from "@/utils/inputValidation";
+import Discount from "@/models/Discount";
 
 const discount = reactive(new Discount());
 
@@ -175,12 +153,11 @@ const isModalShowing = ref(false);
 const isLoading = ref(false);
 
 const closeModal = () => {
-  discount.name = '';
-  discount.promoCode = '';
+  discount.name = "";
+  discount.promoCode = "";
   discount.discountValue = 0;
-  discount.validUntil =
-    getCurrentDateFormatted('MM/DD/YYYY');
-  discount.description = '';
+  discount.validUntil = getCurrentDateFormatted("MM/DD/YYYY");
+  discount.description = "";
   discount.isActive = false;
   isModalShowing.value = false;
 };
@@ -190,21 +167,18 @@ const openModal = () => {
 };
 
 const submitForm = () => {
-  const discountRef = collection(
-    db,
-    Discount.collectionName
-  );
+  const discountRef = collection(db, Discount.collectionName);
   addDoc(discountRef, discount.toFirestore());
   closeModal();
 };
 
 const rows = [
   {
-    Name: 'New Year',
-    'Promo Code': 'NEW2023',
-    'Percent Off': '20%',
-    Expires: 'January 2nd, 2022',
-    Description: 'End of the year sale!',
+    Name: "New Year",
+    "Promo Code": "NEW2023",
+    "Percent Off": "20%",
+    Expires: "January 2nd, 2022",
+    Description: "End of the year sale!",
     Active: false,
   },
 ];

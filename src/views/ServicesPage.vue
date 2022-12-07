@@ -4,17 +4,9 @@
     actionButtonLabel="Add Service"
     :rows="rows"
   >
-    <GenericFormCard
-      title="Add Service"
-      submitLabel="Add"
-    >
+    <GenericFormCard title="Add Service" submitLabel="Add">
       <template #inputs>
-        <q-input
-          dense
-          autofocus
-          v-model="promoCode"
-          label="Name"
-        />
+        <q-input dense autofocus v-model="promoCode" label="Name" />
 
         <q-input
           dense
@@ -23,19 +15,9 @@
           suffix="min"
         />
 
-        <q-input
-          dense
-          v-model="price"
-          label="Price"
-          prefix="$"
-        />
+        <q-input dense v-model="price" label="Price" prefix="$" />
 
-        <q-input
-          dense
-          autogrow
-          v-model="description"
-          label="Description"
-        />
+        <q-input dense autogrow v-model="description" label="Description" />
 
         <q-select
           dense
@@ -43,12 +25,7 @@
           transition-hide="jump-up"
           v-model="promoCode"
           label="Promo Code"
-          :options="[
-            'SUMMER22',
-            'FALL22',
-            'SPRING23',
-            'WINTER23',
-          ]"
+          :options="['SUMMER22', 'FALL22', 'SPRING23', 'WINTER23']"
         />
       </template>
     </GenericFormCard>
@@ -56,28 +33,36 @@
 </template>
 
 <script setup>
-import DataTableSection from '@/components/DataTable/DataTableSection.vue';
-import GenericFormCard from '@/components/GenericFormCard.vue';
-// import { onMounted } from 'vue';
-// import { collection, getDocs } from 'firebase/firestore';
-// import { db } from '@/firebase';
+import { reactive } from "vue";
+import DataTableSection from "@/components/DataTable/DataTableSection.vue";
+import GenericFormCard from "@/components/GenericFormCard.vue";
+// import { onMounted } from "vue";
+// import { db, getDocs, collection } from "@/firebase/firebase";
+import Service from "@/models/Service";
+
+const service = reactive(new Service());
+console.log(service);
+
+// TODO: FIGURE OUT CONVERTER FROM FIRESTORE
 
 // onMounted(async () => {
-//   const querySnapshot = await getDocs(
-//     collection(db, 'services')
+//   const servicesRef = collection(db, Service.collectionName);
+//   const querySnapshot = await getDocs(servicesRef).withConverter(
+//     Service.fromFirestore()
 //   );
 //   querySnapshot.forEach((doc) => {
-//     console.log(doc.id, ' => ', doc.data().description);
+//     // doc.data() is never undefined for query doc snapshots
+//     console.log(doc.id, " => ", doc.data());
 //   });
 // });
 
 const rows = [
   {
-    Name: 'Oil Change',
-    Description: 'Empty and replace engine oil.',
-    'Estimate Service Time': '30 min',
-    Price: '$45.99',
-    'Promo Code': 'NEW2023',
+    Name: "Oil Change",
+    Description: "Empty and replace engine oil.",
+    "Estimate Service Time": "30 min",
+    Price: "$45.99",
+    "Promo Code": "NEW2023",
   },
 ];
 </script>
