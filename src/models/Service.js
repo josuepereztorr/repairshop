@@ -1,12 +1,12 @@
 function Service(name, description, completionTime, price) {
   // all required
-  this.id = "";
+  this.id = '';
   this.name = name;
   this.description = description;
   this.completionTime = completionTime;
   this.price = price;
 
-  this._path = "";
+  this._path = '';
 
   this.toFirestore = function () {
     return {
@@ -18,7 +18,7 @@ function Service(name, description, completionTime, price) {
   };
 }
 
-Service.collectionName = "services";
+Service.collectionName = 'services';
 
 Service.fromFirestore = function (snapshot, options) {
   const data = snapshot.data(options);
@@ -31,6 +31,8 @@ Service.fromFirestore = function (snapshot, options) {
 
   service.id = snapshot.id;
   service._path = snapshot.ref.path;
+
+  return service;
 };
 
 export default Service;
