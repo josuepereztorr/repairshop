@@ -11,11 +11,10 @@
       </q-toolbar>
 
       <q-form
-        @submit.prevent="$emit('formSubmit')"
+        @submit.prevent="emit('onSubmit')"
         class="q-gutter-md q-px-sm q-pb-sm"
       >
-        <slot name="formBody"></slot>
-
+        <slot name="body"></slot>
         <div
           align="right"
           class="q-mt-md q-pt-lg"
@@ -27,12 +26,12 @@
             color="primary"
             label="Cancel"
             type="reset"
-            @click="$emit('isModalShowing')"
+            @click="emit('onCancel')"
           />
           <q-btn
             no-caps
             unelevated
-            color="primary"
+            :color="submitLabelStyle"
             :label="submitLabel"
             type="submit"
           />
@@ -52,7 +51,11 @@ defineProps({
     type: String,
     required: true,
   },
+  submitLabelStyle: {
+    type: String,
+    required: false,
+  },
 });
 
-defineEmits(['isModalShowing', 'formSubmit']);
+const emit = defineEmits(['onCancel', 'onSubmit']);
 </script>

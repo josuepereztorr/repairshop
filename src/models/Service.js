@@ -2,7 +2,7 @@ function Service(name, description, completionTime, price) {
   // all required
   this.id = '';
   this.name = name;
-  this.description = description;
+  this.description = description || '';
   this.completionTime = completionTime;
   this.price = price;
 

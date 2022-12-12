@@ -1,12 +1,17 @@
-function Service(firstName, lastName, phoneNumber, emailAddress, vehicles) {
+function Customer(
+  firstName,
+  lastName,
+  phoneNumber,
+  emailAddress
+) {
   // all required
-  this.id = "";
+  this.id = '';
   this.firstName = firstName;
   this.lastName = lastName;
-  (this.phoneNumber = phoneNumber),
-    (this.emailAddress = emailAddress),
-    (this.vehicles = vehicles),
-    (this._path = "");
+  this.phoneNumber = phoneNumber;
+  this.emailAddress = emailAddress;
+
+  this._path = '';
 
   this.toFirestore = function () {
     return {
@@ -14,24 +19,24 @@ function Service(firstName, lastName, phoneNumber, emailAddress, vehicles) {
       lastName: this.lastName,
       phoneNumber: this.phoneNumber,
       emailAddress: this.emailAddress,
-      vehicles: this.vehicles,
     };
   };
 }
 
-Service.collectionName = "customers";
-Service.fromFirestore = function (snapshot, options) {
+Customer.collectionName = 'customers';
+Customer.fromFirestore = function (snapshot, options) {
   const data = snapshot.data(options);
-  const customer = new Service(
+  const customer = new Customer(
     data.firstName,
     data.lastName,
     data.phoneNumber,
-    data.emailAddress,
-    data.vehicles
+    data.emailAddress
   );
 
-  service.id = snapshot.id;
-  task._path = snapshot.ref.path;
+  customer.id = snapshot.id;
+  customer._path = snapshot.ref.path;
+
+  return customer;
 };
 
-export default Service;
+export default Customer;
