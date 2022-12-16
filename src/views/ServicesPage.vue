@@ -82,19 +82,16 @@
             :rules="[required(), numberRange(0, 30000.0)]"
           />
 
-          <!-- <q-select
+          <q-select
             dense
             transition-show="jump-up"
             transition-hide="jump-up"
-            v-model="promoCode"
+            v-model="service.discount"
             label="Promo Code"
-            :options="[
-              'SUMMER22',
-              'FALL22',
-              'SPRING23',
-              'WINTER23',
-            ]"
-          /> -->
+            :options="discounts"
+            emit-value
+            map-options
+          />
 
           <q-input
             autocorrect="off"
@@ -197,19 +194,16 @@
             :rules="[required(), numberRange(0, 30000.0)]"
           />
 
-          <!-- <q-select
+          <q-select
             dense
             transition-show="jump-up"
             transition-hide="jump-up"
-            v-model="promoCode"
+            v-model="service.discount"
             label="Promo Code"
-            :options="[
-              'SUMMER22',
-              'FALL22',
-              'SPRING23',
-              'WINTER23',
-            ]"
-          /> -->
+            :options="discounts"
+            emit-value
+            map-options
+          />
 
           <q-input
             autocorrect="off"
@@ -254,6 +248,7 @@ import {
 
 // models/utils
 import Service from '@/models/Service';
+import Discount from '@/models/Discount';
 import {
   maxCharAllowable,
   required,
@@ -273,6 +268,7 @@ const remove = () => {
 };
 
 const edit = () => {
+  console.log(service.toFirestore(), 'ON EDIT');
   setDoc(
     doc(db, Service.collectionName, row.value.id),
     service.toFirestore()
@@ -299,6 +295,7 @@ const closeModal = (type) => {
   service.description = '';
   service.completionTime = '';
   service.price = '';
+  service.discount = '';
 
   switch (type) {
     case isCreateShowing.name:
@@ -315,6 +312,7 @@ const closeModal = (type) => {
 // table logic
 const row = ref();
 const rows = ref([]);
+const discounts = ref([]);
 const columns = [
   {
     name: 'name',
@@ -340,6 +338,14 @@ const columns = [
     format: (val) => `${val} min`,
   },
   {
+    name: 'discount',
+    requred: true,
+    label: 'Discount',
+    align: 'right',
+    field: 'discount',
+    format: (val) => `${val.name}`,
+  },
+  {
     name: 'price',
     requred: true,
     label: 'Price',
@@ -349,6 +355,7 @@ const columns = [
   },
 ];
 const onRequest = () => {
+  // GET THE DISCOUNT FROM SERVICE.
   onSnapshot(
     collection(db, Service.collectionName).withConverter(
       Service
@@ -358,6 +365,25 @@ const onRequest = () => {
       querySnapshot.forEach((doc) => {
         rows.value.push(doc.data());
       });
+      console.log(rows.value, 'SERVICES FROM FIRESTORE');
+    }
+  );
+
+  onSnapshot(
+    collection(db, Discount.collectionName).withConverter(
+      Discount
+    ),
+    (querySnapshot) => {
+      let discountOption = { label: '', value: '' };
+      discounts.value = [];
+      querySnapshot.forEach((doc) => {
+        discountOption.label = doc.data().name;
+        discountOption.value = doc.data();
+        discounts.value.push(discountOption);
+        discountOption = { label: '', value: '' };
+        console.log(doc.data(), 'DISCOUNTS FROM FIRESTORE');
+      });
+      console.log(discounts.value, 'DISCOUNTS');
     }
   );
 };
@@ -368,6 +394,8 @@ const onEdit = (selectedService) => {
   service.completionTime = selectedService.completionTime;
   service.price = selectedService.price;
   service.description = selectedService.description;
+  service.discount = selectedService.discount.name;
+  console.log(selectedService, 'SELECTED SERVICE on edit');
 };
 const onRemove = (selectedService) => {
   isDeleteShowing.value = true;
