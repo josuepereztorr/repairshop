@@ -14,7 +14,6 @@ function Service(
   this.completionTime = completionTime;
   this.price = price;
   this.discount = discount;
-  this.discountObj = new Discount();
 
   this._path = '';
 
@@ -43,6 +42,7 @@ Service.fromFirestore = function (snapshot, options) {
     data.discount.isActive
   );
   discount.id = data.discount.id;
+  discount._path = data.discount.path;
   const service = new Service(
     data.name,
     data.description,

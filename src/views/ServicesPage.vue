@@ -268,7 +268,8 @@ const remove = () => {
 };
 
 const edit = () => {
-  console.log(service.toFirestore(), 'ON EDIT');
+  console.log(service, 'discount.toFirestoer()');
+
   setDoc(
     doc(db, Service.collectionName, row.value.id),
     service.toFirestore()
@@ -381,7 +382,6 @@ const onRequest = () => {
         discountOption.value = doc.data();
         discounts.value.push(discountOption);
         discountOption = { label: '', value: '' };
-        console.log(doc.data(), 'DISCOUNTS FROM FIRESTORE');
       });
       console.log(discounts.value, 'DISCOUNTS');
     }
@@ -394,8 +394,14 @@ const onEdit = (selectedService) => {
   service.completionTime = selectedService.completionTime;
   service.price = selectedService.price;
   service.description = selectedService.description;
-  service.discount = selectedService.discount.name;
-  console.log(selectedService, 'SELECTED SERVICE on edit');
+
+  // need a label and value to display to the qselect
+  let discountOption = { label: '', value: '' };
+  discountOption.label = selectedService.discount.name;
+  discountOption.value = selectedService.discount;
+
+  service.discount = discountOption.value;
+  console.log(service, ' SERVICE on edit');
 };
 const onRemove = (selectedService) => {
   isDeleteShowing.value = true;

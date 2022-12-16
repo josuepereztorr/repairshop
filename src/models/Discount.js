@@ -22,6 +22,7 @@ function Discount(
 
   this.toFirestore = function () {
     return {
+      id: this.id,
       name: this.name,
       promoCode: this.promoCode,
       discountValue: this.discountValue,

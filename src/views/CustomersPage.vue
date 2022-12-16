@@ -78,7 +78,8 @@
             v-model="customer.phoneNumber"
             label="Phone Number *"
             :rules="[required()]"
-            type="number"
+            mask="(###) ### - ####"
+            type="tel"
           />
 
           <q-input
@@ -95,6 +96,7 @@
             v-model="customer.emailAddress"
             label="Email *"
             :rules="[required()]"
+            type="email"
           />
         </template>
       </GenericFormCard>
@@ -177,7 +179,8 @@
             v-model="customer.phoneNumber"
             label="Phone Number *"
             :rules="[required()]"
-            type="number"
+            tmask="(###) ### - ####"
+            type="tel"
           />
 
           <q-input
