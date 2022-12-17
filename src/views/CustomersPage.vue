@@ -416,6 +416,14 @@ const columns = [
     label: 'Vehicles',
     align: 'left',
     field: 'vehicles',
+    format: (array) => {
+      // let vehiclesStr = '';
+      // array.forEach((vehicle) => {
+      //   vehiclesStr += vehicle.toString();
+      // });
+      // return vehiclesStr;
+      `${array}`;
+    },
   },
 ];
 const onRequest = () => {

@@ -2,8 +2,7 @@ function Customer(
   firstName,
   lastName,
   phoneNumber,
-  emailAddress,
-  vehicles
+  emailAddress
 ) {
   // all required
   this.id = '';
@@ -11,17 +10,21 @@ function Customer(
   this.lastName = lastName;
   this.phoneNumber = phoneNumber;
   this.emailAddress = emailAddress;
-  this.vehicles = vehicles;
+  this.vehicles = [];
 
   this._path = '';
 
   this.toFirestore = function () {
+    const vehicles = [];
+    this.vehicles.forEach((vehicle) => {
+      vehicle.push(vehicle.toFirestore());
+    });
     return {
       firstName: this.firstName,
       lastName: this.lastName,
       phoneNumber: this.phoneNumber,
       emailAddress: this.emailAddress,
-      vehicles: this.vehicles,
+      vehicles: vehicles,
     };
   };
 }

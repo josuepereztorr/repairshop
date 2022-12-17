@@ -7,6 +7,10 @@ function Vehicle(year, make, model) {
 
   this._path = '';
 
+  this.toString = function () {
+    return `${this.year} + ${this.make} + ${this.model}`;
+  };
+
   this.toFirestore = function () {
     return {
       year: this.year,
