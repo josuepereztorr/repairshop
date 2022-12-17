@@ -2,7 +2,8 @@ function Customer(
   firstName,
   lastName,
   phoneNumber,
-  emailAddress
+  emailAddress,
+  vehicles
 ) {
   // all required
   this.id = '';
@@ -10,6 +11,7 @@ function Customer(
   this.lastName = lastName;
   this.phoneNumber = phoneNumber;
   this.emailAddress = emailAddress;
+  this.vehicles = vehicles;
 
   this._path = '';
 
@@ -19,6 +21,7 @@ function Customer(
       lastName: this.lastName,
       phoneNumber: this.phoneNumber,
       emailAddress: this.emailAddress,
+      vehicles: this.vehicles,
     };
   };
 }
@@ -30,7 +33,8 @@ Customer.fromFirestore = function (snapshot, options) {
     data.firstName,
     data.lastName,
     data.phoneNumber,
-    data.emailAddress
+    data.emailAddress,
+    data.vehicles
   );
 
   customer.id = snapshot.id;

@@ -7,11 +7,23 @@
       @onRequest="emit('onRequest')"
       @onEdit="(row) => emit('onEdit', row)"
       @onRemove="(row) => emit('onRemove', row)"
+      @onCustom="(row) => emit('onCustom', row)"
     >
+      <template #customAction>
+        <slot name="customAction"></slot>
+      </template>
       <template #actionButtons>
         <slot name="actionButtons"></slot>
       </template>
     </DataTable>
+
+    <q-dialog
+      persistent
+      v-model="isCustomShowing"
+      v-if="isCustomShowing"
+    >
+      <slot name="custom"></slot>
+    </q-dialog>
 
     <q-dialog
       persistent
@@ -67,15 +79,21 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  isCustomShowing: {
+    type: Boolean,
+    required: false,
+  },
 });
 
 const emit = defineEmits([
   'onRequest',
   'onEdit',
   'onRemove',
+  'onCustom',
 ]);
 
 const isCreateShowing = toRef(props, 'isCreateShowing');
 const isDeleteShowing = toRef(props, 'isDeleteShowing');
 const isEditShowing = toRef(props, 'isEditShowing');
+const isCustomShowing = toRef(props, 'isCustomShowing');
 </script>

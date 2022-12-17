@@ -6,10 +6,86 @@
     :isCreateShowing="isCreateShowing.value"
     :isDeleteShowing="isDeleteShowing.value"
     :isEditShowing="isEditShowing.value"
+    :isCustomShowing="isCreateVehicleShowing.value"
     @onRequest="onRequest"
     @onEdit="(row) => onEdit(row)"
     @onRemove="(row) => onRemove(row)"
+    @onCustom="(row) => onCreateVehicle(row)"
   >
+    <template #customAction>
+      <q-btn
+        color="primary"
+        icon="add"
+        label="Add Vehicle"
+        unelevated
+        no-caps
+        flat
+        dense
+        @click="isCreateVehicleShowing.value = true"
+        class="q-mr-xs"
+      />
+    </template>
+
+    <template #custom>
+      <GenericFormCard
+        title="Add Vehicle"
+        submitLabel="Add"
+        submitLabelStyle="primary"
+        @onCancel="closeModal(isCreateVehicleShowing.name)"
+        @onSubmit="addVehicle"
+      >
+        <template #body>
+          <q-input
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="off"
+            spellcheck="false"
+            dense
+            autofocus
+            bottom-slots
+            hide-bottom-space
+            lazy-rules
+            name="year"
+            v-model="vehicle.year"
+            label="Year *"
+            :rules="[required(), numberRange(1950, 2023)]"
+          />
+
+          <q-input
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="off"
+            spellcheck="false"
+            dense
+            autofocus
+            bottom-slots
+            hide-bottom-space
+            lazy-rules
+            name="make"
+            v-model="vehicle.make"
+            label="Make *"
+            :rules="[required(), maxCharAllowable(25)]"
+          />
+
+          <q-input
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="off"
+            spellcheck="false"
+            dense
+            autofocus
+            bottom-slots
+            hide-bottom-space
+            lazy-rules
+            name="model"
+            v-model="vehicle.model"
+            label="Model *"
+            :rules="[required(), maxCharAllowable(25)]"
+          />
+        </template>
+      </GenericFormCard>
+    </template>
+
     <template #actionButtons>
       <div class="q-gutter-x-sm">
         <q-btn
@@ -116,7 +192,9 @@
               Are you sure you want delete the following
               customer:
               <span class="text-weight-medium"
-                >'{{ row.name }}'</span
+                >'{{
+                  row.firstName + ' ' + row.lastName
+                }}'</span
               >
             </p>
           </div>
@@ -179,7 +257,7 @@
             v-model="customer.phoneNumber"
             label="Phone Number *"
             :rules="[required()]"
-            tmask="(###) ### - ####"
+            mask="(###) ### - ####"
             type="tel"
           />
 
@@ -225,8 +303,10 @@ import {
 
 // models/utils
 import Customer from '@/models/Customer';
+import Vehicle from '@/models/Vehicle';
 import {
   maxCharAllowable,
+  numberRange,
   required,
 } from '@/utils/inputValidation';
 
@@ -239,6 +319,8 @@ const add = () => {
   addDoc(customerRef, customer.toFirestore());
   closeModal(isCreateShowing.name);
 };
+
+const addVehicle = () => {};
 
 const remove = () => {
   deleteDoc(doc(db, Customer.collectionName, row.value.id));
@@ -255,8 +337,13 @@ const edit = () => {
 
 // modals logic
 const customer = reactive(new Customer());
+const vehicle = reactive(new Vehicle());
 const isCreateShowing = reactive({
   name: 'create',
+  value: false,
+});
+const isCreateVehicleShowing = reactive({
+  name: 'createVehicle',
   value: false,
 });
 const isDeleteShowing = reactive({
@@ -272,6 +359,9 @@ const closeModal = (type) => {
   customer.lastName = '';
   customer.phoneNumber = '';
   customer.emailAddress = '';
+  vehicle.year = '';
+  vehicle.make = '';
+  vehicle.model = '';
 
   switch (type) {
     case isCreateShowing.name:
@@ -279,6 +369,9 @@ const closeModal = (type) => {
       break;
     case isEditShowing.name:
       isEditShowing.value = false;
+      break;
+    case isCreateVehicleShowing.name:
+      isCreateVehicleShowing.value = false;
       break;
     default:
       break;
@@ -316,6 +409,13 @@ const columns = [
     label: 'Email Address',
     align: 'left',
     field: 'emailAddress',
+  },
+  {
+    name: 'vehicles',
+    requred: true,
+    label: 'Vehicles',
+    align: 'left',
+    field: 'vehicles',
   },
 ];
 const onRequest = () => {

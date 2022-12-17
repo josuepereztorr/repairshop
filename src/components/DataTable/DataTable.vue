@@ -27,6 +27,10 @@
     <template v-slot:body="props">
       <q-tr :props="props">
         <q-td auto-width>
+          <slot
+            name="customAction"
+            @click="emit('onCustom', props.row)"
+          ></slot>
           <q-btn
             size="sm"
             color="primary"
@@ -35,7 +39,9 @@
             flat
             @click="emit('onEdit', props.row)"
             :icon="'edit'"
+            class="q-mx-xs"
           ></q-btn>
+
           <q-btn
             size="sm"
             color="negative"
@@ -44,6 +50,7 @@
             flat
             @click="emit('onRemove', props.row)"
             :icon="'delete'"
+            class="q-ml-xs q-mr-xl"
           ></q-btn>
         </q-td>
         <!-- each additional column -->
@@ -87,6 +94,7 @@ const emit = defineEmits([
   'onRequest',
   'onEdit',
   'onRemove',
+  'onCustom',
 ]);
 
 const tableRef = ref('');
