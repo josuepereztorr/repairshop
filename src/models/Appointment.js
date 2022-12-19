@@ -1,37 +1,53 @@
+import Customer from "@/models/Customer";
+import Service from "@/models/Service";
+import AppointmentDate from "@/models/AppointmentDate";
 
-function Service(name, description, estimatedTime, price) {
-    // all required
-    this.id = '';
-    this.name = name;
-    this.description = description;
-    this.completionTime = completionTime;
-    this.price = price;
-  
-    this._path = '';
-  
-    this.toFirestore = function () {
-      return {
-        name: this.name,
-        description: this.description,
-        completionTime: this.completionTime,
-        price: this.price,
-      };
+function Appointment(customer, service, appointmentDate) {
+  // all required
+  this.id = "";
+  this.customer = customer;
+  this.service = service;
+  this.appointmentDate = appointmentDate;
+  this._path = "";
+
+  this.toFirestore = function () {
+    return {
+      customer: this.customer.toFirestore(),
+      service: this.service.toFirestore(),
+      appointmentDate: this.appointmentDate.toFirestore(),
     };
-  }
-  
-  Service.collectionName = 'services';
-  Service.fromFirestore = function (snapshot, options) {
-    const data = snapshot.data(options);
-    const service = new Service(
-      data.name,
-      data.description,
-      data.completionTime,
-      data.price
-    );
-  
-    service.id = snapshot.id;
-    task._path = snapshot.ref.path;
   };
-  
-  export default Service;
-  
+}
+
+Service.collectionName = "appointments";
+Service.fromFirestore = function (snapshot, options) {
+  const data = snapshot.data(options);
+  const customer = new Customer(
+    data.customer.firstName,
+    data.customer.lastName,
+    data.customer.phoneNumber,
+    data.customer.emailAddress,
+    data.customer.vehicle
+  );
+  const service = new Service(
+    data.service.name,
+    data.service.description,
+    data.service.completionTime,
+    data.service.price,
+    data.service.discount
+  );
+  const appointmentDate = new AppointmentDate(
+    data.appointmentDate.dateOfService,
+    data.appointmentDate.startTime,
+    data.appointmentDate.endTime
+  );
+  appointmentDate.dateCreated = data.appointmentDate.dateCreated;
+  const appointment = new Appointment(customer, service, appointmentDate);
+
+  appointment.id = snapshot.id;
+  appointment._path = snapshot.ref.path;
+
+  return appointment;
+};
+
+export default Appointment;

@@ -1,14 +1,14 @@
 function Vehicle(year, make, model) {
   // all required
-  this.id = '';
+  this.id = "";
   this.year = year;
-  this.made = make;
+  this.make = make;
   this.model = model;
 
-  this._path = '';
+  this._path = "";
 
   this.toString = function () {
-    return `${this.year} + ${this.make} + ${this.model}`;
+    return `${this.year} ${this.make} ${this.model}`;
   };
 
   this.toFirestore = function () {
@@ -20,14 +20,10 @@ function Vehicle(year, make, model) {
   };
 }
 
-Vehicle.collectionName = 'vehicles';
+Vehicle.collectionName = "vehicles";
 Vehicle.fromFirestore = function (snapshot, options) {
   const data = snapshot.data(options);
-  const vehicle = new Vehicle(
-    data.year,
-    data.make,
-    data.model
-  );
+  const vehicle = new Vehicle(data.year, data.make, data.model);
 
   vehicle.id = snapshot.id;
   vehicle._path = snapshot.ref.path;

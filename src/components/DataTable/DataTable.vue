@@ -14,11 +14,7 @@
     <template v-slot:header="props">
       <q-tr :props="props">
         <q-th auto-width></q-th>
-        <q-th
-          v-for="col in props.cols"
-          :key="col.name"
-          :props="props"
-        >
+        <q-th v-for="col in props.cols" :key="col.name" :props="props">
           {{ col.label }}
         </q-th>
       </q-tr>
@@ -27,10 +23,7 @@
     <template v-slot:body="props">
       <q-tr :props="props">
         <q-td auto-width>
-          <slot
-            name="customAction"
-            @click="emit('onCustom', props.row)"
-          ></slot>
+          <slot name="customAction" @click="emit('onCustom', props.row)"></slot>
           <q-btn
             size="sm"
             color="primary"
@@ -50,15 +43,10 @@
             flat
             @click="emit('onRemove', props.row)"
             :icon="'delete'"
-            class="q-ml-xs q-mr-xl"
           ></q-btn>
         </q-td>
         <!-- each additional column -->
-        <q-td
-          v-for="col in props.cols"
-          :key="col.name"
-          :props="props"
-        >
+        <q-td v-for="col in props.cols" :key="col.name" :props="props">
           {{ col.value }}
         </q-td>
       </q-tr>
@@ -73,7 +61,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from "vue";
 
 defineProps({
   title: {
@@ -90,14 +78,9 @@ defineProps({
   },
 });
 
-const emit = defineEmits([
-  'onRequest',
-  'onEdit',
-  'onRemove',
-  'onCustom',
-]);
+const emit = defineEmits(["onRequest", "onEdit", "onRemove", "onCustom"]);
 
-const tableRef = ref('');
+const tableRef = ref("");
 const pagination = {
   descending: false,
   page: 1,

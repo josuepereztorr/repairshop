@@ -1,21 +1,15 @@
-import Discount from '@/models/Discount';
+import Discount from "@/models/Discount";
 
-function Service(
-  name,
-  description,
-  completionTime,
-  price,
-  discount
-) {
+function Service(name, description, completionTime, price, discount) {
   // all required
-  this.id = '';
+  this.id = "";
   this.name = name;
-  this.description = description || '';
+  this.description = description || "";
   this.completionTime = completionTime;
   this.price = price;
   this.discount = discount;
 
-  this._path = '';
+  this._path = "";
 
   this.toFirestore = function () {
     return {
@@ -28,7 +22,7 @@ function Service(
   };
 }
 
-Service.collectionName = 'services';
+Service.collectionName = "services";
 
 Service.fromFirestore = function (snapshot, options) {
   const data = snapshot.data(options);

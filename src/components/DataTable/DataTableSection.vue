@@ -17,42 +17,27 @@
       </template>
     </DataTable>
 
-    <q-dialog
-      persistent
-      v-model="isCustomShowing"
-      v-if="isCustomShowing"
-    >
+    <q-dialog persistent v-model="isCustomShowing" v-if="isCustomShowing">
       <slot name="custom"></slot>
     </q-dialog>
 
-    <q-dialog
-      persistent
-      v-model="isCreateShowing"
-      v-if="isCreateShowing"
-    >
+    <q-dialog persistent v-model="isCreateShowing" v-if="isCreateShowing">
       <slot name="create"></slot>
     </q-dialog>
 
-    <q-dialog
-      persistent
-      v-model="isDeleteShowing"
-      v-if="isDeleteShowing"
-    >
+    <q-dialog persistent v-model="isDeleteShowing" v-if="isDeleteShowing">
       <slot name="delete"></slot>
     </q-dialog>
 
-    <q-dialog
-      persistent
-      v-model="isEditShowing"
-    >
+    <q-dialog persistent v-model="isEditShowing">
       <slot name="edit"></slot>
     </q-dialog>
   </q-page>
 </template>
 
 <script setup>
-import { toRef } from 'vue';
-import DataTable from '@/components/DataTable/DataTable.vue';
+import { toRef } from "vue";
+import DataTable from "@/components/DataTable/DataTable.vue";
 
 const props = defineProps({
   title: {
@@ -85,15 +70,10 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits([
-  'onRequest',
-  'onEdit',
-  'onRemove',
-  'onCustom',
-]);
+const emit = defineEmits(["onRequest", "onEdit", "onRemove", "onCustom"]);
 
-const isCreateShowing = toRef(props, 'isCreateShowing');
-const isDeleteShowing = toRef(props, 'isDeleteShowing');
-const isEditShowing = toRef(props, 'isEditShowing');
-const isCustomShowing = toRef(props, 'isCustomShowing');
+const isCreateShowing = toRef(props, "isCreateShowing");
+const isDeleteShowing = toRef(props, "isDeleteShowing");
+const isEditShowing = toRef(props, "isEditShowing");
+const isCustomShowing = toRef(props, "isCustomShowing");
 </script>

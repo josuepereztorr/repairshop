@@ -1,25 +1,25 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
   {
-    path: '/',
-    component: () => import('@/layouts/MainLayout.vue'),
+    path: "/",
+    component: () => import("@/layouts/MainLayout.vue"),
     children: [
       {
-        path: '/customers',
-        component: () => import('@/views/CustomersPage'),
+        path: "/",
+        component: () => import("@/views/CustomersPage"),
       },
       {
-        path: '/appointments',
-        component: () => import('@/views/AppointmentsPage'),
+        path: "/appointments",
+        component: () => import("@/views/AppointmentsPage"),
       },
       {
-        path: '/services',
-        component: () => import('@/views/ServicesPage'),
+        path: "/services",
+        component: () => import("@/views/ServicesPage"),
       },
       {
-        path: '/discounts',
-        component: () => import('@/views/DiscountsPage'),
+        path: "/discounts",
+        component: () => import("@/views/DiscountsPage"),
       },
     ],
   },

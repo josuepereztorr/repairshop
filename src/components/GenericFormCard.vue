@@ -1,10 +1,7 @@
 <template>
   <q-card>
-    <div
-      style="min-width: 450px"
-      class="q-pa-lg"
-    >
-      <q-toolbar class="q-pl-sm">
+    <div style="min-width: 450px" class="q-pa-lg">
+      <q-toolbar class="q-pl-sm text-primary">
         <q-toolbar-title class="text-weight-medium">
           {{ title }}
         </q-toolbar-title>
@@ -15,10 +12,7 @@
         class="q-gutter-md q-px-sm q-pb-sm"
       >
         <slot name="body"></slot>
-        <div
-          align="right"
-          class="q-mt-md q-pt-lg"
-        >
+        <div align="right" class="q-mt-md q-pt-lg">
           <q-btn
             flat
             no-caps
@@ -57,5 +51,5 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['onCancel', 'onSubmit']);
+const emit = defineEmits(["onCancel", "onSubmit"]);
 </script>

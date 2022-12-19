@@ -7,20 +7,12 @@
       bordered
     >
       <!-- Navigation -->
-      <q-list
-        padding
-        class="rounded-borders text-white full-width"
-      >
+      <q-list padding class="rounded-borders text-white full-width">
         <!-- Brand -->
         <q-item class="q-py-sm q-ml-md">
-          <q-icon
-            size="md"
-            class="q-pr-sm"
-          >
-            <img
-              src="@/assets/car-repair.png"
-              alt="car logo"
-            />
+          <!-- <q-btn flat @click="toggleLeftDrawer" round dense icon="menu" /> -->
+          <q-icon size="md" class="q-pr-sm">
+            <img src="@/assets/car-repair.png" alt="car logo" />
           </q-icon>
           <q-item-section class="text-h6 text-weight-medium"
             >Primary Auto Repair</q-item-section
@@ -45,36 +37,36 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import DrawerSelection from '@/components/DrawerSelection';
+import { ref } from "vue";
+import DrawerSelection from "@/components/DrawerSelection";
 
 // drawer
 const leftDrawerOpen = ref(true);
 
-// function toggleLeftDrawer () {
-//   leftDrawerOpen.value = !leftDrawerOpen.value
+// function toggleLeftDrawer() {
+//   leftDrawerOpen.value = !leftDrawerOpen.value;
 // }
 
 const drawerMenuList = [
   {
-    title: 'Appointments',
-    icon: 'calendar_month',
-    path: '/appointments',
+    title: "Appointments",
+    icon: "calendar_month",
+    path: "/appointments",
   },
   {
-    title: 'Customers',
-    icon: 'group',
-    path: '/customers',
+    title: "Customers",
+    icon: "group",
+    path: "/",
   },
   {
-    title: 'Services',
-    icon: 'build',
-    path: 'services',
+    title: "Services",
+    icon: "build",
+    path: "services",
   },
   {
-    title: 'Discounts',
-    icon: 'sell',
-    path: '/discounts',
+    title: "Discounts",
+    icon: "sell",
+    path: "/discounts",
   },
 ];
 </script>

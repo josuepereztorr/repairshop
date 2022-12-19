@@ -1,43 +1,46 @@
-function Customer(
-  firstName,
-  lastName,
-  phoneNumber,
-  emailAddress
-) {
+import Vehicle from "@/models/Vehicle";
+
+function Customer(firstName, lastName, phoneNumber, emailAddress, vehicle) {
   // all required
-  this.id = '';
+  this.id = "";
   this.firstName = firstName;
   this.lastName = lastName;
   this.phoneNumber = phoneNumber;
   this.emailAddress = emailAddress;
-  this.vehicles = [];
+  this.vehicle = vehicle;
 
-  this._path = '';
+  this._path = "";
+
+  this.getFullName = function () {
+    return `${this.firstName} ${this.lastName}`;
+  };
 
   this.toFirestore = function () {
-    const vehicles = [];
-    this.vehicles.forEach((vehicle) => {
-      vehicle.push(vehicle.toFirestore());
-    });
     return {
       firstName: this.firstName,
       lastName: this.lastName,
       phoneNumber: this.phoneNumber,
       emailAddress: this.emailAddress,
-      vehicles: vehicles,
+      vehicle: this.vehicle.toFirestore(),
     };
   };
 }
 
-Customer.collectionName = 'customers';
+Customer.collectionName = "customers";
 Customer.fromFirestore = function (snapshot, options) {
   const data = snapshot.data(options);
+
+  const vehicle = new Vehicle(
+    data.vehicle.year,
+    data.vehicle.make,
+    data.vehicle.model
+  );
   const customer = new Customer(
     data.firstName,
     data.lastName,
     data.phoneNumber,
     data.emailAddress,
-    data.vehicles
+    vehicle
   );
 
   customer.id = snapshot.id;

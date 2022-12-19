@@ -6,86 +6,10 @@
     :isCreateShowing="isCreateShowing.value"
     :isDeleteShowing="isDeleteShowing.value"
     :isEditShowing="isEditShowing.value"
-    :isCustomShowing="isCreateVehicleShowing.value"
     @onRequest="onRequest"
     @onEdit="(row) => onEdit(row)"
     @onRemove="(row) => onRemove(row)"
-    @onCustom="(row) => onCreateVehicle(row)"
   >
-    <template #customAction>
-      <q-btn
-        color="primary"
-        icon="add"
-        label="Add Vehicle"
-        unelevated
-        no-caps
-        flat
-        dense
-        @click="isCreateVehicleShowing.value = true"
-        class="q-mr-xs"
-      />
-    </template>
-
-    <template #custom>
-      <GenericFormCard
-        title="Add Vehicle"
-        submitLabel="Add"
-        submitLabelStyle="primary"
-        @onCancel="closeModal(isCreateVehicleShowing.name)"
-        @onSubmit="addVehicle"
-      >
-        <template #body>
-          <q-input
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="off"
-            spellcheck="false"
-            dense
-            autofocus
-            bottom-slots
-            hide-bottom-space
-            lazy-rules
-            name="year"
-            v-model="vehicle.year"
-            label="Year *"
-            :rules="[required(), numberRange(1950, 2023)]"
-          />
-
-          <q-input
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="off"
-            spellcheck="false"
-            dense
-            autofocus
-            bottom-slots
-            hide-bottom-space
-            lazy-rules
-            name="make"
-            v-model="vehicle.make"
-            label="Make *"
-            :rules="[required(), maxCharAllowable(25)]"
-          />
-
-          <q-input
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="off"
-            spellcheck="false"
-            dense
-            autofocus
-            bottom-slots
-            hide-bottom-space
-            lazy-rules
-            name="model"
-            v-model="vehicle.model"
-            label="Model *"
-            :rules="[required(), maxCharAllowable(25)]"
-          />
-        </template>
-      </GenericFormCard>
-    </template>
-
     <template #actionButtons>
       <div class="q-gutter-x-sm">
         <q-btn
@@ -174,6 +98,55 @@
             :rules="[required()]"
             type="email"
           />
+
+          <q-input
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="off"
+            spellcheck="false"
+            dense
+            autofocus
+            bottom-slots
+            hide-bottom-space
+            lazy-rules
+            name="year"
+            v-model="vehicle.year"
+            label="Year *"
+            :rules="[required(), numberRange(1950, 2023)]"
+            class="q-pa-none"
+          />
+
+          <q-input
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="off"
+            spellcheck="false"
+            dense
+            autofocus
+            bottom-slots
+            hide-bottom-space
+            lazy-rules
+            name="make"
+            v-model="vehicle.make"
+            label="Make *"
+            :rules="[required(), maxCharAllowable(25)]"
+          />
+
+          <q-input
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="off"
+            spellcheck="false"
+            dense
+            autofocus
+            bottom-slots
+            hide-bottom-space
+            lazy-rules
+            name="model"
+            v-model="vehicle.model"
+            label="Model *"
+            :rules="[required(), maxCharAllowable(25)]"
+          />
         </template>
       </GenericFormCard>
     </template>
@@ -189,12 +162,9 @@
         <template #body>
           <div>
             <p>
-              Are you sure you want delete the following
-              customer:
+              Are you sure you want delete the following customer:
               <span class="text-weight-medium"
-                >'{{
-                  row.firstName + ' ' + row.lastName
-                }}'</span
+                >'{{ row.firstName + " " + row.lastName }}'</span
               >
             </p>
           </div>
@@ -276,6 +246,55 @@
             label="Email *"
             :rules="[required()]"
           />
+
+          <q-input
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="off"
+            spellcheck="false"
+            dense
+            autofocus
+            bottom-slots
+            hide-bottom-space
+            lazy-rules
+            name="year"
+            v-model="vehicle.year"
+            label="Year *"
+            :rules="[required(), numberRange(1950, 2023)]"
+            class="q-pa-none"
+          />
+
+          <q-input
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="off"
+            spellcheck="false"
+            dense
+            autofocus
+            bottom-slots
+            hide-bottom-space
+            lazy-rules
+            name="make"
+            v-model="vehicle.make"
+            label="Make *"
+            :rules="[required(), maxCharAllowable(25)]"
+          />
+
+          <q-input
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="off"
+            spellcheck="false"
+            dense
+            autofocus
+            bottom-slots
+            hide-bottom-space
+            lazy-rules
+            name="model"
+            v-model="vehicle.model"
+            label="Model *"
+            :rules="[required(), maxCharAllowable(25)]"
+          />
         </template>
       </GenericFormCard>
     </template>
@@ -284,11 +303,11 @@
 
 <script setup>
 // vue
-import { ref, reactive } from 'vue';
+import { ref, reactive } from "vue";
 
 // comoponents
-import DataTableSection from '@/components/DataTable/DataTableSection.vue';
-import GenericFormCard from '@/components/GenericFormCard.vue';
+import DataTableSection from "@/components/DataTable/DataTableSection.vue";
+import GenericFormCard from "@/components/GenericFormCard.vue";
 
 // firebase
 import {
@@ -299,28 +318,24 @@ import {
   collection,
   onSnapshot,
   deleteDoc,
-} from '@/firebase/firebase';
+} from "@/firebase/firebase";
 
 // models/utils
-import Customer from '@/models/Customer';
-import Vehicle from '@/models/Vehicle';
+import Customer from "@/models/Customer";
+import Vehicle from "@/models/Vehicle";
 import {
   maxCharAllowable,
   numberRange,
   required,
-} from '@/utils/inputValidation';
+} from "@/utils/inputValidation";
 
 // crud
 const add = () => {
-  const customerRef = collection(
-    db,
-    Customer.collectionName
-  );
+  const customerRef = collection(db, Customer.collectionName);
+  customer.vehicle = vehicle;
   addDoc(customerRef, customer.toFirestore());
   closeModal(isCreateShowing.name);
 };
-
-const addVehicle = () => {};
 
 const remove = () => {
   deleteDoc(doc(db, Customer.collectionName, row.value.id));
@@ -328,6 +343,8 @@ const remove = () => {
 };
 
 const edit = () => {
+  customer.vehicle = vehicle;
+  console.log(customer, "CUSTOMER");
   setDoc(
     doc(db, Customer.collectionName, row.value.id),
     customer.toFirestore()
@@ -339,29 +356,25 @@ const edit = () => {
 const customer = reactive(new Customer());
 const vehicle = reactive(new Vehicle());
 const isCreateShowing = reactive({
-  name: 'create',
-  value: false,
-});
-const isCreateVehicleShowing = reactive({
-  name: 'createVehicle',
+  name: "create",
   value: false,
 });
 const isDeleteShowing = reactive({
-  name: 'delete',
+  name: "delete",
   value: false,
 });
 const isEditShowing = reactive({
-  name: 'edit',
+  name: "edit",
   value: false,
 });
 const closeModal = (type) => {
-  customer.firstName = '';
-  customer.lastName = '';
-  customer.phoneNumber = '';
-  customer.emailAddress = '';
-  vehicle.year = '';
-  vehicle.make = '';
-  vehicle.model = '';
+  customer.firstName = "";
+  customer.lastName = "";
+  customer.phoneNumber = "";
+  customer.emailAddress = "";
+  vehicle.year = "";
+  vehicle.make = "";
+  vehicle.model = "";
 
   switch (type) {
     case isCreateShowing.name:
@@ -369,9 +382,6 @@ const closeModal = (type) => {
       break;
     case isEditShowing.name:
       isEditShowing.value = false;
-      break;
-    case isCreateVehicleShowing.name:
-      isCreateVehicleShowing.value = false;
       break;
     default:
       break;
@@ -383,73 +393,67 @@ const row = ref();
 const rows = ref([]);
 const columns = [
   {
-    name: 'firstName',
+    name: "firstName",
     requred: true,
-    label: 'First Name',
-    align: 'left',
-    field: 'firstName',
+    label: "First Name",
+    align: "left",
+    field: "firstName",
   },
   {
-    name: 'lastName',
+    name: "lastName",
     requred: true,
-    label: 'Last Name',
-    align: 'left',
-    field: 'lastName',
+    label: "Last Name",
+    align: "left",
+    field: "lastName",
   },
   {
-    name: 'phoneNumber',
+    name: "phoneNumber",
     requred: true,
-    label: 'Phone Number',
-    align: 'left',
-    field: 'phoneNumber',
+    label: "Phone Number",
+    align: "left",
+    field: "phoneNumber",
   },
   {
-    name: 'emailAddress',
+    name: "emailAddress",
     requred: true,
-    label: 'Email Address',
-    align: 'left',
-    field: 'emailAddress',
+    label: "Email Address",
+    align: "left",
+    field: "emailAddress",
   },
   {
-    name: 'vehicles',
+    name: "vehicle",
     requred: true,
-    label: 'Vehicles',
-    align: 'left',
-    field: 'vehicles',
-    format: (array) => {
-      // let vehiclesStr = '';
-      // array.forEach((vehicle) => {
-      //   vehiclesStr += vehicle.toString();
-      // });
-      // return vehiclesStr;
-      `${array}`;
-    },
+    label: "Vehicle",
+    align: "left",
+    field: "vehicle",
   },
 ];
 const onRequest = () => {
   onSnapshot(
-    collection(db, Customer.collectionName).withConverter(
-      Customer
-    ),
+    collection(db, Customer.collectionName).withConverter(Customer),
     (querySnapshot) => {
       rows.value = [];
       querySnapshot.forEach((doc) => {
         rows.value.push(doc.data());
       });
+      console.log(rows.value, "SERVICES FROM FIRESTORE");
     }
   );
 };
+
 const onEdit = (selectedCustomer) => {
-  selectedCustomer;
   isEditShowing.value = true;
   row.value = selectedCustomer;
+  console.log(selectedCustomer, "SELECTED CUSTOMER");
   customer.firstName = selectedCustomer.firstName;
   customer.lastName = selectedCustomer.lastName;
   customer.phoneNumber = selectedCustomer.phoneNumber;
   customer.emailAddress = selectedCustomer.emailAddress;
+  vehicle.year = selectedCustomer.vehicle.year;
+  vehicle.make = selectedCustomer.vehicle.make;
+  vehicle.model = selectedCustomer.vehicle.model;
 };
 const onRemove = (selectedCustomer) => {
-  selectedCustomer;
   isDeleteShowing.value = true;
   row.value = selectedCustomer;
 };
