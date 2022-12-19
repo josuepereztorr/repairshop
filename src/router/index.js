@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
     path: "/",
-    component: () => import("@/layouts/MainLayout.vue"),
+    component: () => import("@/layouts/AppLayout.vue"),
     children: [
       {
         path: "/",
@@ -20,6 +20,20 @@ const routes = [
       {
         path: "/discounts",
         component: () => import("@/views/DiscountsPage"),
+      },
+    ],
+  },
+  {
+    path: "/schedule-appointment",
+    component: () => import("@/layouts/WebPageLayout.vue"),
+    children: [
+      {
+        path: "/home",
+        component: () => import("@/views/ServicesWebPage.vue"),
+      },
+      {
+        path: "/schedule-appointment",
+        component: () => import("@/views/ScheduleAppWebPage.vue"),
       },
     ],
   },

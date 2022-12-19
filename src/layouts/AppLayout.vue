@@ -9,15 +9,7 @@
       <!-- Navigation -->
       <q-list padding class="rounded-borders text-white full-width">
         <!-- Brand -->
-        <q-item class="q-py-sm q-ml-md">
-          <!-- <q-btn flat @click="toggleLeftDrawer" round dense icon="menu" /> -->
-          <q-icon size="md" class="q-pr-sm">
-            <img src="@/assets/car-repair.png" alt="car logo" />
-          </q-icon>
-          <q-item-section class="text-h6 text-weight-medium"
-            >Primary Auto Repair</q-item-section
-          >
-        </q-item>
+        <BrandLogo></BrandLogo>
 
         <q-separator spaced />
 
@@ -39,6 +31,7 @@
 <script setup>
 import { ref } from "vue";
 import DrawerSelection from "@/components/DrawerSelection";
+import BrandLogo from "@/components/BrandLogo.vue";
 
 // drawer
 const leftDrawerOpen = ref(true);
