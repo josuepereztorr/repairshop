@@ -234,7 +234,7 @@ const appointment = reactive(new Appointment());
 const services = ref([]);
 
 const formStatus = ref("Appointment Successfully Created");
-const isFormSubmited = ref(true);
+const isFormSubmited = ref(false);
 
 const add = () => {
   appointment.appointmentDate = appointmentDate;
