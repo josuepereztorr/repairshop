@@ -31,7 +31,6 @@ Service.fromFirestore = function (snapshot, options) {
     data.discount.name,
     data.discount.promoCode,
     data.discount.discountValue,
-    data.discount.validUntil,
     data.discount.description,
     data.discount.isActive
   );

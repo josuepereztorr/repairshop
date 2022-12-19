@@ -1,24 +1,15 @@
-import { getCurrentDateFormatted } from '@/utils/date';
+// import { getCurrentDateFormatted } from '@/utils/date';
 
-function Discount(
-  name,
-  promoCode,
-  discountValue,
-  validUntil,
-  description,
-  isActive
-) {
-  this.id = '';
+function Discount(name, promoCode, discountValue, description, isActive) {
+  this.id = "";
 
-  this.name = name || '';
-  this.promoCode = promoCode || '';
+  this.name = name || "";
+  this.promoCode = promoCode || "";
   this.discountValue = discountValue || 0;
-  this.validUntil =
-    validUntil || getCurrentDateFormatted('MM/DD/YYYY');
-  this.description = description || ''; // optional
+  this.description = description || ""; // optional
   this.isActive = isActive || false;
 
-  this._path = '';
+  this._path = "";
 
   this.toFirestore = function () {
     return {
@@ -26,14 +17,13 @@ function Discount(
       name: this.name,
       promoCode: this.promoCode,
       discountValue: this.discountValue,
-      validUntil: this.validUntil,
       description: this.description,
       isActive: this.isActive,
     };
   };
 }
 
-Discount.collectionName = 'discounts';
+Discount.collectionName = "discounts";
 
 Discount.fromFirestore = function (snapshot, options) {
   const data = snapshot.data(options);
@@ -41,7 +31,6 @@ Discount.fromFirestore = function (snapshot, options) {
     data.name,
     data.promoCode,
     data.discountValue,
-    data.validUntil,
     data.description,
     data.isActive
   );

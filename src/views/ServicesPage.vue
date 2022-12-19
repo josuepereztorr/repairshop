@@ -45,7 +45,7 @@
             name="name"
             v-model="service.name"
             label="Name *"
-            :rules="[required(), maxCharAllowable(25)]"
+            :rules="[required(), maxCharAllowable(50)]"
           />
 
           <q-input
@@ -87,7 +87,7 @@
             transition-show="jump-up"
             transition-hide="jump-up"
             v-model="service.discount"
-            label="Promo Code"
+            label="Discount"
             :options="discounts"
             emit-value
             map-options
@@ -124,11 +124,8 @@
         <template #body>
           <div>
             <p>
-              Are you sure you want delete the following
-              service:
-              <span class="text-weight-medium"
-                >'{{ row.name }}'</span
-              >
+              Are you sure you want delete the following service:
+              <span class="text-weight-medium">'{{ row.name }}'</span>
             </p>
           </div>
         </template>
@@ -157,7 +154,7 @@
             name="name"
             v-model="service.name"
             label="Name *"
-            :rules="[required(), maxCharAllowable(25)]"
+            :rules="[required(), maxCharAllowable(50)]"
           />
 
           <q-input
@@ -199,7 +196,7 @@
             transition-show="jump-up"
             transition-hide="jump-up"
             v-model="service.discount"
-            label="Promo Code"
+            label="Discount"
             :options="discounts"
             emit-value
             map-options
@@ -229,11 +226,11 @@
 
 <script setup>
 // vue
-import { ref, reactive } from 'vue';
+import { ref, reactive } from "vue";
 
 // comoponents
-import DataTableSection from '@/components/DataTable/DataTableSection.vue';
-import GenericFormCard from '@/components/GenericFormCard.vue';
+import DataTableSection from "@/components/DataTable/DataTableSection.vue";
+import GenericFormCard from "@/components/GenericFormCard.vue";
 
 // firebase
 import {
@@ -244,16 +241,16 @@ import {
   collection,
   onSnapshot,
   deleteDoc,
-} from '@/firebase/firebase';
+} from "@/firebase/firebase";
 
 // models/utils
-import Service from '@/models/Service';
-import Discount from '@/models/Discount';
+import Service from "@/models/Service";
+import Discount from "@/models/Discount";
 import {
   maxCharAllowable,
   required,
   numberRange,
-} from '@/utils/inputValidation';
+} from "@/utils/inputValidation";
 
 // crud
 const add = () => {
@@ -268,35 +265,32 @@ const remove = () => {
 };
 
 const edit = () => {
-  console.log(service, 'discount.toFirestoer()');
+  console.log(service, "discount.toFirestoer()");
 
-  setDoc(
-    doc(db, Service.collectionName, row.value.id),
-    service.toFirestore()
-  );
+  setDoc(doc(db, Service.collectionName, row.value.id), service.toFirestore());
   closeModal(isEditShowing.name);
 };
 
 // modals logic
 const service = reactive(new Service());
 const isCreateShowing = reactive({
-  name: 'create',
+  name: "create",
   value: false,
 });
 const isDeleteShowing = reactive({
-  name: 'delete',
+  name: "delete",
   value: false,
 });
 const isEditShowing = reactive({
-  name: 'edit',
+  name: "edit",
   value: false,
 });
 const closeModal = (type) => {
-  service.name = '';
-  service.description = '';
-  service.completionTime = '';
-  service.price = '';
-  service.discount = '';
+  service.name = "";
+  service.description = "";
+  service.completionTime = "";
+  service.price = "";
+  service.discount = "";
 
   switch (type) {
     case isCreateShowing.name:
@@ -316,74 +310,70 @@ const rows = ref([]);
 const discounts = ref([]);
 const columns = [
   {
-    name: 'name',
+    name: "name",
     requred: true,
-    label: 'Name',
-    align: 'left',
-    field: 'name',
+    label: "Name",
+    align: "left",
+    field: "name",
   },
   {
-    name: 'description',
+    name: "description",
     requred: true,
-    label: 'Description',
-    align: 'left',
-    field: 'description',
+    label: "Description",
+    align: "left",
+    field: "description",
     format: (val) => `${val.toString().slice(0, 75)}...`,
   },
   {
-    name: 'completionTime',
+    name: "completionTime",
     requred: true,
-    label: 'Completion Time',
-    align: 'right',
-    field: 'completionTime',
+    label: "Completion Time",
+    align: "right",
+    field: "completionTime",
     format: (val) => `${val} min`,
   },
   {
-    name: 'discount',
+    name: "discount",
     requred: true,
-    label: 'Discount',
-    align: 'right',
-    field: 'discount',
+    label: "Discount",
+    align: "right",
+    field: "discount",
     format: (val) => `${val.name}`,
   },
   {
-    name: 'price',
+    name: "price",
     requred: true,
-    label: 'Price',
-    align: 'right',
-    field: 'price',
+    label: "Price",
+    align: "right",
+    field: "price",
     format: (val) => `$${val}`,
   },
 ];
 const onRequest = () => {
   // GET THE DISCOUNT FROM SERVICE.
   onSnapshot(
-    collection(db, Service.collectionName).withConverter(
-      Service
-    ),
+    collection(db, Service.collectionName).withConverter(Service),
     (querySnapshot) => {
       rows.value = [];
       querySnapshot.forEach((doc) => {
         rows.value.push(doc.data());
       });
-      console.log(rows.value, 'SERVICES FROM FIRESTORE');
+      console.log(rows.value, "SERVICES FROM FIRESTORE");
     }
   );
 
   onSnapshot(
-    collection(db, Discount.collectionName).withConverter(
-      Discount
-    ),
+    collection(db, Discount.collectionName).withConverter(Discount),
     (querySnapshot) => {
-      let discountOption = { label: '', value: '' };
+      let discountOption = { label: "", value: "" };
       discounts.value = [];
       querySnapshot.forEach((doc) => {
         discountOption.label = doc.data().name;
         discountOption.value = doc.data();
         discounts.value.push(discountOption);
-        discountOption = { label: '', value: '' };
+        discountOption = { label: "", value: "" };
       });
-      console.log(discounts.value, 'DISCOUNTS');
+      console.log(discounts.value, "DISCOUNTS");
     }
   );
 };
@@ -396,12 +386,12 @@ const onEdit = (selectedService) => {
   service.description = selectedService.description;
 
   // need a label and value to display to the qselect
-  let discountOption = { label: '', value: '' };
+  let discountOption = { label: "", value: "" };
   discountOption.label = selectedService.discount.name;
   discountOption.value = selectedService.discount;
 
   service.discount = discountOption.value;
-  console.log(service, ' SERVICE on edit');
+  console.log(service, " SERVICE on edit");
 };
 const onRemove = (selectedService) => {
   isDeleteShowing.value = true;

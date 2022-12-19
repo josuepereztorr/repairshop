@@ -344,7 +344,6 @@ const remove = () => {
 
 const edit = () => {
   customer.vehicle = vehicle;
-  console.log(customer, "CUSTOMER");
   setDoc(
     doc(db, Customer.collectionName, row.value.id),
     customer.toFirestore()

@@ -36,7 +36,8 @@
             dense
             autocomplete="off"
             v-model="appointmentDate.dateOfService"
-            name="validUntil"
+            name="dateOfService"
+            hint="Date"
           >
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer" color="primary">
@@ -48,12 +49,41 @@
                   <q-date
                     v-model="appointmentDate.dateOfService"
                     mask="MM/DD/YYYY"
-                    label="fdfjhskd"
+                    label="Date of Service"
                   >
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
                   </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+
+          <q-input
+            dense
+            v-model="appointmentDate.startTime"
+            name="startTime"
+            hint="Time"
+          >
+            <template v-slot:prepend>
+              <q-icon name="access_time" class="cursor-pointer" color="primary">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-time
+                    v-model="appointmentDate.startTime"
+                    mask="HH:mm"
+                    label="Time of Service"
+                    now-btn
+                    format24h
+                  >
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-time>
                 </q-popup-proxy>
               </q-icon>
             </template>
@@ -95,10 +125,16 @@
         <template #body>
           <div>
             <p>
-              Are you sure you want delete the following customer:
-              <span class="text-weight-medium"
-                >'{{ row.firstName + " " + row.lastName }}'</span
-              >
+              Are you sure you want delete the following appointment for
+              <span class="text-weight-medium">{{
+                row.customer.getFullName()
+              }}</span>
+              scheduled for
+              <span class="text-weight-medium">{{
+                row.appointmentDate.dateOfService +
+                " at " +
+                row.appointmentDate.startTime
+              }}</span>
             </p>
           </div>
         </template>
@@ -107,7 +143,7 @@
 
     <template #edit>
       <GenericFormCard
-        title="Edit Customer"
+        title="Edit Appointment"
         submitLabel="Save"
         submitLabelStyle="primary"
         @onCancel="closeModal(isEditShowing.name)"
@@ -115,118 +151,84 @@
       >
         <template #body>
           <q-input
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="off"
-            spellcheck="false"
             dense
-            autofocus
-            bottom-slots
-            hide-bottom-space
-            lazy-rules
-            name="firstName"
-            v-model="customer.firstName"
-            label="First Name *"
-            :rules="[required(), maxCharAllowable(25)]"
-          />
+            autocomplete="off"
+            v-model="appointmentDate.dateOfService"
+            name="dateOfService"
+            hint="Date"
+          >
+            <template v-slot:prepend>
+              <q-icon name="event" class="cursor-pointer" color="primary">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date
+                    v-model="appointmentDate.dateOfService"
+                    mask="MM/DD/YYYY"
+                    label="Date of Service"
+                  >
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
 
           <q-input
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="off"
-            spellcheck="false"
             dense
-            autofocus
-            bottom-slots
-            hide-bottom-space
-            lazy-rules
-            name="lastName"
-            v-model="customer.lastName"
-            label="Last Name *"
-            :rules="[required(), maxCharAllowable(25)]"
+            v-model="appointmentDate.startTime"
+            name="startTime"
+            hint="Time"
+          >
+            <template v-slot:prepend>
+              <q-icon name="access_time" class="cursor-pointer" color="primary">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-time
+                    v-model="appointmentDate.startTime"
+                    mask="HH:mm"
+                    label="Time of Service"
+                    now-btn
+                    format24h
+                  >
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-time>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+
+          <q-select
+            dense
+            disable
+            readonly
+            transition-show="jump-up"
+            transition-hide="jump-up"
+            v-model="appointment.customer"
+            label="Customer"
+            :options="customers"
+            emit-value
+            map-options
           />
 
-          <q-input
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="off"
-            spellcheck="false"
+          <q-select
             dense
-            autofocus
-            bottom-slots
-            hide-bottom-space
-            lazy-rules
-            name="phoneNumber"
-            v-model="customer.phoneNumber"
-            label="Phone Number *"
-            :rules="[required()]"
-            mask="(###) ### - ####"
-            type="tel"
-          />
-
-          <q-input
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="off"
-            spellcheck="false"
-            dense
-            autofocus
-            bottom-slots
-            hide-bottom-space
-            lazy-rules
-            name="email"
-            v-model="customer.emailAddress"
-            label="Email *"
-            :rules="[required()]"
-          />
-
-          <q-input
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="off"
-            spellcheck="false"
-            dense
-            autofocus
-            bottom-slots
-            hide-bottom-space
-            lazy-rules
-            name="year"
-            v-model="vehicle.year"
-            label="Year *"
-            :rules="[required(), numberRange(1950, 2023)]"
-            class="q-pa-none"
-          />
-
-          <q-input
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="off"
-            spellcheck="false"
-            dense
-            autofocus
-            bottom-slots
-            hide-bottom-space
-            lazy-rules
-            name="make"
-            v-model="vehicle.make"
-            label="Make *"
-            :rules="[required(), maxCharAllowable(25)]"
-          />
-
-          <q-input
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="off"
-            spellcheck="false"
-            dense
-            autofocus
-            bottom-slots
-            hide-bottom-space
-            lazy-rules
-            name="model"
-            v-model="vehicle.model"
-            label="Model *"
-            :rules="[required(), maxCharAllowable(25)]"
+            transition-show="jump-up"
+            transition-hide="jump-up"
+            v-model="appointment.service"
+            label="Service"
+            :options="services"
+            emit-value
+            map-options
           />
         </template>
       </GenericFormCard>
@@ -258,30 +260,28 @@ import Appointment from "@/models/Appointment";
 import AppointmentDate from "@/models/AppointmentDate";
 import Service from "@/models/Service";
 import Customer from "@/models/Customer";
-import Discount from "@/models/Discount";
-
-import {
-  maxCharAllowable,
-  numberRange,
-  required,
-} from "@/utils/inputValidation";
+import { getCurrentDateFormatted } from "@/utils/date";
 
 // crud
 const add = () => {
-  const customerRef = collection(db, Customer.collectionName);
-  addDoc(customerRef, customer.toFirestore());
+  appointment.appointmentDate = appointmentDate;
+  const appointmentRef = collection(db, Appointment.collectionName);
+  addDoc(appointmentRef, appointment.toFirestore());
   closeModal(isCreateShowing.name);
 };
 
 const remove = () => {
-  deleteDoc(doc(db, Customer.collectionName, row.value.id));
+  deleteDoc(doc(db, Appointment.collectionName, row.value.id));
   isDeleteShowing.value = false;
 };
 
 const edit = () => {
+  appointment.appointmentDate = appointmentDate;
+
+  console.log(appointment, "ON EDITH SUBMIT");
   setDoc(
-    doc(db, Customer.collectionName, row.value.id),
-    customer.toFirestore()
+    doc(db, Appointment.collectionName, row.value.id),
+    appointment.toFirestore()
   );
   closeModal(isEditShowing.name);
 };
@@ -289,8 +289,6 @@ const edit = () => {
 // modals logic
 const appointment = reactive(new Appointment());
 const appointmentDate = reactive(new AppointmentDate());
-const customer = reactive(new Customer());
-
 const isCreateShowing = reactive({
   name: "create",
   value: false,
@@ -304,10 +302,10 @@ const isEditShowing = reactive({
   value: false,
 });
 const closeModal = (type) => {
-  customer.firstName = "";
-  customer.lastName = "";
-  customer.phoneNumber = "";
-  customer.emailAddress = "";
+  appointment.service = "";
+  appointment.customer = "";
+  appointmentDate.dateOfService = getCurrentDateFormatted("MM/DD/YYYY");
+  appointmentDate.startTime = getCurrentDateFormatted("h:mm");
 
   switch (type) {
     case isCreateShowing.name:
@@ -321,122 +319,166 @@ const closeModal = (type) => {
   }
 };
 
-const discounts = ref([]);
-
 // table logic
 const row = ref();
 const rows = ref([]);
-const services = ref([]);
-const customers = ref([]);
 const columns = [
   {
-    name: "firstName",
+    name: "dateOfService",
     requred: true,
-    label: "First Name",
+    label: "Service Date",
     align: "left",
-    field: "firstName",
+    field: "appointmentDate",
+    format: (date) => `${date.dateOfService}`,
   },
   {
-    name: "lastName",
+    name: "serviceType",
     requred: true,
-    label: "Last Name",
+    label: "Service",
     align: "left",
-    field: "lastName",
+    field: "service",
+    format: (service) => `${service.name}`,
+  },
+
+  {
+    name: "startTime",
+    requred: true,
+    label: "Start Time",
+    align: "left",
+    field: "appointmentDate",
+    format: (date) => `${date.startTime}`,
   },
   {
-    name: "phoneNumber",
+    name: "name",
     requred: true,
-    label: "Phone Number",
+    label: "Customer Name",
     align: "left",
-    field: "phoneNumber",
+    field: "customer",
+    format: (customer) => `${customer.getFullName()}`,
   },
   {
-    name: "emailAddress",
+    name: "contact",
     requred: true,
-    label: "Email Address",
+    label: "Contact Information (phone/email)",
     align: "left",
-    field: "emailAddress",
+    field: "customer",
+    format: (customer) => `${customer.phoneNumber} | ${customer.emailAddress}`,
   },
   {
     name: "vehicle",
     requred: true,
     label: "Vehicle",
     align: "left",
-    field: "vehicle",
+    field: "customer",
+    format: (customer) => `${customer.getVehicle()}`,
+  },
+  {
+    name: "completionTime",
+    requred: true,
+    label: "Estimated Completion Time",
+    align: "right",
+    field: "service",
+    format: (service) => `${service.completionTime} min`,
+  },
+  {
+    name: "price",
+    requred: true,
+    label: "Cost",
+    align: "right",
+    field: "service",
+    format: (service) => `$${service.price}`,
+  },
+  {
+    name: "discount",
+    requred: true,
+    label: "Discount",
+    align: "right",
+    field: "service",
+    format: (service) => `${service.discount.discountValue}%`,
+  },
+  {
+    name: "dateCreated",
+    requred: true,
+    label: "Created On",
+    align: "left",
+    field: "appointmentDate",
+    format: (date) => `${date.dateCreated}`,
   },
 ];
-// const onRequest = () => {
-//   onSnapshot(
-//     collection(db, Service.collectionName).withConverter(Service),
-//     (querySnapshot) => {
-//       rows.value = [];
-//       querySnapshot.forEach((doc) => {
-//         rows.value.push(doc.data());
-//         console.log(doc.data(), "doc.data()");
-//       });
-//       console.log(rows.value, "SERVICES FROM FIRESTORE");
-//     }
-//   );
-//   onSnapshot(
-//     collection(db, Customer.collectionName).withConverter(Customer),
-//     (querySnapshot) => {
-//       let customerOption = { label: "", value: "" };
-//       customers.value = [];
-//       querySnapshot.forEach((doc) => {
-//         customerOption.label = doc.data().getFullName();
-//         customerOption.value = doc.data();
-//         customers.value.push(customerOption);
-//         customerOption = { label: "", value: "" };
-//         // console.log(doc.data(), "CUSTOMER FROM FIRESTORE");
-//       });
-//       // console.log(customers.value, "CUSTOMERS");
-//     }
-//   );
-// };
+const services = ref([]);
+const customers = ref([]);
 
 const onRequest = () => {
-  // GET THE DISCOUNT FROM SERVICE.
   onSnapshot(
-    collection(db, "services").withConverter(Service),
+    collection(db, Appointment.collectionName).withConverter(Appointment),
     (querySnapshot) => {
       rows.value = [];
       querySnapshot.forEach((doc) => {
-        // rows.value.push(doc.data());
-        console.log(doc.data(), "SERVICES FROM FIRESTORE");
+        rows.value.push(doc.data());
       });
+      console.log(rows.value, "APPOINTMENTS FROM FIRESTORE");
     }
   );
-
   onSnapshot(
-    collection(db, Discount.collectionName).withConverter(Discount),
+    collection(db, Service.collectionName).withConverter(Service),
     (querySnapshot) => {
-      let discountOption = { label: "", value: "" };
-      discounts.value = [];
+      let serviceOption = { label: "", value: "" };
+      services.value = [];
       querySnapshot.forEach((doc) => {
-        discountOption.label = doc.data().name;
-        discountOption.value = doc.data();
-        discounts.value.push(discountOption);
-        discountOption = { label: "", value: "" };
+        serviceOption.label = doc.data().name;
+        serviceOption.value = doc.data();
+        services.value.push(serviceOption);
+        serviceOption = { label: "", value: "" };
+        // console.log(doc.data(), "CUSTOMER FROM FIRESTORE");
       });
-      console.log(discounts.value, "DISCOUNTS");
+      console.log(services.value, "SERVICES");
+    }
+  );
+  onSnapshot(
+    collection(db, Customer.collectionName).withConverter(Customer),
+    (querySnapshot) => {
+      let customerOption = { label: "", value: "" };
+      customers.value = [];
+      querySnapshot.forEach((doc) => {
+        customerOption.label = doc.data().getFullName();
+        customerOption.value = doc.data();
+        customers.value.push(customerOption);
+        customerOption = { label: "", value: "" };
+        // console.log(doc.data(), "CUSTOMER FROM FIRESTORE");
+      });
+      console.log(customers.value, "CUSTOMERS");
     }
   );
 };
-
-const onEdit = (selectedCustomer) => {
+const onEdit = (selectedAppointment) => {
   isEditShowing.value = true;
-  row.value = selectedCustomer;
-  console.log(selectedCustomer, "SELECTED CUSTOMER");
-  customer.firstName = selectedCustomer.firstName;
-  customer.lastName = selectedCustomer.lastName;
-  customer.phoneNumber = selectedCustomer.phoneNumber;
-  customer.emailAddress = selectedCustomer.emailAddress;
-  // vehicle.year = selectedCustomer.vehicle.year;
-  // vehicle.make = selectedCustomer.vehicle.make;
-  // vehicle.model = selectedCustomer.vehicle.model;
+  console.log(selectedAppointment, "SELECTED APPOINTMENT");
+  row.value = selectedAppointment;
+  appointmentDate.startTime = selectedAppointment.appointmentDate.startTime;
+  appointmentDate.dateOfService =
+    selectedAppointment.appointmentDate.dateOfService;
+
+  // need a label and value to display to the qselect
+  let customerOption = { label: "", value: "" };
+  customerOption.label = selectedAppointment.customer.getFullName();
+  customerOption.value = selectedAppointment.customer;
+
+  let serviceOption = { label: "", value: "" };
+  serviceOption.label = selectedAppointment.service.name;
+  serviceOption.value = selectedAppointment.service;
+
+  appointment.customer = customerOption.value;
+  appointment.service = serviceOption.value;
+
+  // this displays correctly but I have to go to the appointments
+  // model and reference the value first then toFirestore()
+  // but then causes further errors when saving
+  // appointment.customer = customerOption;
+  // appointment.service = serviceOption;
+  console.log(appointment, " APPOINTMENT on edit");
 };
-const onRemove = (selectedCustomer) => {
+const onRemove = (selectedAppointment) => {
   isDeleteShowing.value = true;
-  row.value = selectedCustomer;
+  row.value = selectedAppointment;
 };
 </script>

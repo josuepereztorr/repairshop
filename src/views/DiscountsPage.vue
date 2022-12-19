@@ -81,44 +81,6 @@
           />
 
           <q-input
-            dense
-            autocomplete="off"
-            v-model="discount.validUntil"
-            name="validUntil"
-          >
-            <template v-slot:prepend>
-              <q-icon
-                name="event"
-                class="cursor-pointer"
-                color="primary"
-              >
-                <q-popup-proxy
-                  cover
-                  transition-show="scale"
-                  transition-hide="scale"
-                >
-                  <q-date
-                    v-model="discount.validUntil"
-                    mask="MM/DD/YYYY"
-                    label="fdfjhskd"
-                  >
-                    <div
-                      class="row items-center justify-end"
-                    >
-                      <q-btn
-                        v-close-popup
-                        label="Close"
-                        color="primary"
-                        flat
-                      />
-                    </div>
-                  </q-date>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-
-          <q-input
             autocorrect="off"
             autocapitalize="off"
             autocomplete="off"
@@ -134,10 +96,7 @@
             :rules="[maxCharAllowable(250)]"
           />
 
-          <q-item
-            tag="label"
-            class="q-pl-none q-py-sm"
-          >
+          <q-item tag="label" class="q-pl-none q-py-sm">
             <q-item-section>
               <q-item-label>Discount Active</q-item-label>
             </q-item-section>
@@ -145,11 +104,7 @@
             <q-space />
 
             <q-item-section class="content-end">
-              <q-toggle
-                dense
-                color="primary"
-                v-model="discount.isActive"
-              />
+              <q-toggle dense color="primary" v-model="discount.isActive" />
             </q-item-section>
           </q-item>
         </template>
@@ -167,11 +122,8 @@
         <template #body>
           <div>
             <p>
-              Are you sure you want delete the following
-              discount:
-              <span class="text-weight-medium"
-                >'{{ row.name }}'</span
-              >
+              Are you sure you want delete the following discount:
+              <span class="text-weight-medium">'{{ row.name }}'</span>
             </p>
           </div>
         </template>
@@ -236,44 +188,6 @@
           />
 
           <q-input
-            dense
-            autocomplete="off"
-            v-model="discount.validUntil"
-            name="validUntil"
-          >
-            <template v-slot:prepend>
-              <q-icon
-                name="event"
-                class="cursor-pointer"
-                color="primary"
-              >
-                <q-popup-proxy
-                  cover
-                  transition-show="scale"
-                  transition-hide="scale"
-                >
-                  <q-date
-                    v-model="discount.validUntil"
-                    mask="MM/DD/YYYY"
-                    label="fdfjhskd"
-                  >
-                    <div
-                      class="row items-center justify-end"
-                    >
-                      <q-btn
-                        v-close-popup
-                        label="Close"
-                        color="primary"
-                        flat
-                      />
-                    </div>
-                  </q-date>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-
-          <q-input
             autocorrect="off"
             autocapitalize="off"
             autocomplete="off"
@@ -289,10 +203,7 @@
             :rules="[maxCharAllowable(250)]"
           />
 
-          <q-item
-            tag="label"
-            class="q-pl-none q-py-sm"
-          >
+          <q-item tag="label" class="q-pl-none q-py-sm">
             <q-item-section>
               <q-item-label>Discount Active</q-item-label>
             </q-item-section>
@@ -300,11 +211,7 @@
             <q-space />
 
             <q-item-section class="content-end">
-              <q-toggle
-                dense
-                color="primary"
-                v-model="discount.isActive"
-              />
+              <q-toggle dense color="primary" v-model="discount.isActive" />
             </q-item-section>
           </q-item>
         </template>
@@ -315,11 +222,11 @@
 
 <script setup>
 // vue
-import { ref, reactive } from 'vue';
+import { ref, reactive } from "vue";
 
 // comoponents
-import DataTableSection from '@/components/DataTable/DataTableSection.vue';
-import GenericFormCard from '@/components/GenericFormCard.vue';
+import DataTableSection from "@/components/DataTable/DataTableSection.vue";
+import GenericFormCard from "@/components/GenericFormCard.vue";
 
 // firebase
 import {
@@ -330,23 +237,19 @@ import {
   collection,
   onSnapshot,
   deleteDoc,
-} from '@/firebase/firebase';
+} from "@/firebase/firebase";
 
 // modles/utils
-import Discount from '@/models/Discount';
-import { getCurrentDateFormatted } from '@/utils/date';
+import Discount from "@/models/Discount";
 import {
   maxCharAllowable,
   required,
   numberRange,
-} from '@/utils/inputValidation';
+} from "@/utils/inputValidation";
 
 // crud
 const add = () => {
-  const discountRef = collection(
-    db,
-    Discount.collectionName
-  );
+  const discountRef = collection(db, Discount.collectionName);
   addDoc(discountRef, discount.toFirestore());
   closeModal(isCreateShowing.name);
 };
@@ -367,24 +270,22 @@ const edit = () => {
 // modals logic
 const discount = reactive(new Discount());
 const isCreateShowing = reactive({
-  name: 'create',
+  name: "create",
   value: false,
 });
 const isDeleteShowing = reactive({
-  name: 'delete',
+  name: "delete",
   value: false,
 });
 const isEditShowing = reactive({
-  name: 'edit',
+  name: "edit",
   value: false,
 });
 const closeModal = (type) => {
-  discount.name = '';
-  discount.promoCode = '';
+  discount.name = "";
+  discount.promoCode = "";
   discount.discountValue = 0;
-  discount.validUntil =
-    getCurrentDateFormatted('MM/DD/YYYY');
-  discount.description = '';
+  discount.description = "";
   discount.isActive = false;
 
   switch (type) {
@@ -404,55 +305,46 @@ const row = ref();
 const rows = ref([]);
 const columns = [
   {
-    name: 'name',
+    name: "name",
     requred: true,
-    label: 'Name',
-    align: 'left',
-    field: 'name',
+    label: "Name",
+    align: "left",
+    field: "name",
   },
   {
-    name: 'description',
+    name: "description",
     requred: true,
-    label: 'Description',
-    align: 'left',
-    field: 'description',
+    label: "Description",
+    align: "left",
+    field: "description",
     format: (val) => `${val.toString().slice(0, 75)}...`,
   },
   {
-    name: 'promoCode',
+    name: "promoCode",
     requred: true,
-    label: 'Promo Code',
-    align: 'left',
-    field: 'promoCode',
+    label: "Promo Code",
+    align: "left",
+    field: "promoCode",
   },
   {
-    name: 'validUntil',
+    name: "isActive",
     requred: true,
-    label: 'Valid Until',
-    align: 'right',
-    field: 'validUntil',
+    label: "Is Active",
+    align: "left",
+    field: "isActive",
   },
   {
-    name: 'isActive',
+    name: "discountValue",
     requred: true,
-    label: 'Is Active',
-    align: 'left',
-    field: 'isActive',
-  },
-  {
-    name: 'discountValue',
-    requred: true,
-    label: 'Discount Value',
-    align: 'right',
-    field: 'discountValue',
+    label: "Discount Value",
+    align: "right",
+    field: "discountValue",
     format: (val) => `${val}%`,
   },
 ];
 const onRequest = () => {
   onSnapshot(
-    collection(db, Discount.collectionName).withConverter(
-      Discount
-    ),
+    collection(db, Discount.collectionName).withConverter(Discount),
     (querySnapshot) => {
       rows.value = [];
       querySnapshot.forEach((doc) => {
@@ -467,7 +359,6 @@ const onEdit = (selectedDiscount) => {
   discount.name = selectedDiscount.name;
   discount.promoCode = selectedDiscount.promoCode;
   discount.discountValue = selectedDiscount.discountValue;
-  discount.validUntil = selectedDiscount.validUntil;
   discount.description = selectedDiscount.description;
   discount.isActive = selectedDiscount.isActive;
 };

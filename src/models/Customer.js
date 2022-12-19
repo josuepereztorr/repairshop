@@ -15,6 +15,10 @@ function Customer(firstName, lastName, phoneNumber, emailAddress, vehicle) {
     return `${this.firstName} ${this.lastName}`;
   };
 
+  this.getVehicle = function () {
+    return `${this.vehicle.year} ${this.vehicle.make} ${this.vehicle.model}`;
+  };
+
   this.toFirestore = function () {
     return {
       firstName: this.firstName,
