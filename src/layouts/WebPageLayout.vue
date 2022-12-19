@@ -1,24 +1,23 @@
 <template>
   <q-layout view="hHh lpR fFf" class="bg-primary">
-    <q-header class="bg-primary text-white q-py-md" reveal="true">
+    <q-header class="bg-primary text-white q-py-md">
       <q-toolbar>
         <BrandLogo></BrandLogo>
         <q-tabs v-model="tab" shrink>
-          <q-route-tab
+          <!-- <q-route-tab
             :ripple="false"
             no-caps
             name="services"
             label="Services"
             :indicator-color="primary"
             to="/home"
-          />
+          /> -->
           <q-route-tab
             :ripple="false"
             no-caps=""
             name="schedule"
             label="Schedule an Appointment"
-            :indicator-color="primary"
-            to="/schedule-appointment"
+            to="/home"
           />
         </q-tabs>
       </q-toolbar>

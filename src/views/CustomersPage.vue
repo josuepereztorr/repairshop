@@ -30,6 +30,8 @@
         submitLabelStyle="primary"
         @onCancel="closeModal(isCreateShowing.name)"
         @onSubmit="add"
+        :isCancelVisible="true"
+        :isSubmitVisible="true"
       >
         <template #body>
           <q-input
@@ -54,7 +56,6 @@
             autocomplete="off"
             spellcheck="false"
             dense
-            autofocus
             bottom-slots
             hide-bottom-space
             lazy-rules
@@ -70,7 +71,6 @@
             autocomplete="off"
             spellcheck="false"
             dense
-            autofocus
             bottom-slots
             hide-bottom-space
             lazy-rules
@@ -88,7 +88,6 @@
             autocomplete="off"
             spellcheck="false"
             dense
-            autofocus
             bottom-slots
             hide-bottom-space
             lazy-rules
@@ -105,7 +104,6 @@
             autocomplete="off"
             spellcheck="false"
             dense
-            autofocus
             bottom-slots
             hide-bottom-space
             lazy-rules
@@ -122,7 +120,6 @@
             autocomplete="off"
             spellcheck="false"
             dense
-            autofocus
             bottom-slots
             hide-bottom-space
             lazy-rules
@@ -138,7 +135,6 @@
             autocomplete="off"
             spellcheck="false"
             dense
-            autofocus
             bottom-slots
             hide-bottom-space
             lazy-rules
@@ -158,6 +154,8 @@
         submitLabelStyle="negative"
         @onCancel="isDeleteShowing.value = false"
         @onSubmit="remove"
+        :isCancelVisible="true"
+        :isSubmitVisible="true"
       >
         <template #body>
           <div>
@@ -179,6 +177,8 @@
         submitLabelStyle="primary"
         @onCancel="closeModal(isEditShowing.name)"
         @onSubmit="edit"
+        :isCancelVisible="true"
+        :isSubmitVisible="true"
       >
         <template #body>
           <q-input
@@ -203,7 +203,6 @@
             autocomplete="off"
             spellcheck="false"
             dense
-            autofocus
             bottom-slots
             hide-bottom-space
             lazy-rules
@@ -219,7 +218,6 @@
             autocomplete="off"
             spellcheck="false"
             dense
-            autofocus
             bottom-slots
             hide-bottom-space
             lazy-rules
@@ -237,7 +235,6 @@
             autocomplete="off"
             spellcheck="false"
             dense
-            autofocus
             bottom-slots
             hide-bottom-space
             lazy-rules
@@ -253,7 +250,6 @@
             autocomplete="off"
             spellcheck="false"
             dense
-            autofocus
             bottom-slots
             hide-bottom-space
             lazy-rules
@@ -270,7 +266,6 @@
             autocomplete="off"
             spellcheck="false"
             dense
-            autofocus
             bottom-slots
             hide-bottom-space
             lazy-rules
@@ -286,7 +281,6 @@
             autocomplete="off"
             spellcheck="false"
             dense
-            autofocus
             bottom-slots
             hide-bottom-space
             lazy-rules

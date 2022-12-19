@@ -24,17 +24,17 @@ const routes = [
     ],
   },
   {
-    path: "/schedule-appointment",
+    path: "/home",
     component: () => import("@/layouts/WebPageLayout.vue"),
     children: [
       {
         path: "/home",
-        component: () => import("@/views/ServicesWebPage.vue"),
-      },
-      {
-        path: "/schedule-appointment",
         component: () => import("@/views/ScheduleAppWebPage.vue"),
       },
+      // {
+      //   path: "/schedule-appointment",
+      //   component: () => import("@/views/ScheduleAppWebPage.vue"),
+      // },
     ],
   },
 ];

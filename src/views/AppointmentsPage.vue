@@ -28,12 +28,15 @@
         title="Create Appointment"
         submitLabel="Create"
         submitLabelStyle="primary"
+        :isCancelVisible="true"
+        :isSubmitVisible="true"
         @onCancel="closeModal(isCreateShowing.name)"
         @onSubmit="add"
       >
         <template #body>
           <q-input
             dense
+            autofocus
             autocomplete="off"
             v-model="appointmentDate.dateOfService"
             name="dateOfService"
@@ -119,6 +122,8 @@
         title="Delete Customer"
         submitLabel="Delete"
         submitLabelStyle="negative"
+        :isCancelVisible="true"
+        :isSubmitVisible="true"
         @onCancel="isDeleteShowing.value = false"
         @onSubmit="remove"
       >
@@ -148,10 +153,13 @@
         submitLabelStyle="primary"
         @onCancel="closeModal(isEditShowing.name)"
         @onSubmit="edit"
+        :isCancelVisible="true"
+        :isSubmitVisible="true"
       >
         <template #body>
           <q-input
             dense
+            autofocus
             autocomplete="off"
             v-model="appointmentDate.dateOfService"
             name="dateOfService"

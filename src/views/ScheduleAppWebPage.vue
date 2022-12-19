@@ -2,15 +2,19 @@
   <q-page padding class="bg-primary row justify-center">
     <GenericFormCard
       title="Create Appointment"
-      submitLabel="Create"
+      :isCancelVisible="false"
+      submitLabel="Schedule Appointment"
       submitLabelStyle="primary"
-      @onCancel="closeModal(isCreateShowing.name)"
+      :isSubmitVisible="true"
+      :isFormSubmited="isFormSubmited"
+      :formStatus="formStatus"
       @onSubmit="add"
       class="q-ma-lg"
       id="form"
+      @onSuccessForm="resetForm"
     >
       <template #body>
-        <!-- Customer Info -->
+        <!-- Customer -->
         <q-input
           autocorrect="off"
           autocapitalize="off"
@@ -24,6 +28,7 @@
           name="firstName"
           v-model="customer.firstName"
           label="First Name *"
+          :rules="[required(), maxCharAllowable(25)]"
         />
 
         <q-input
@@ -32,13 +37,13 @@
           autocomplete="off"
           spellcheck="false"
           dense
-          autofocus
           bottom-slots
           hide-bottom-space
           lazy-rules
           name="lastName"
           v-model="customer.lastName"
           label="Last Name *"
+          :rules="[required(), maxCharAllowable(25)]"
         />
 
         <q-input
@@ -47,7 +52,6 @@
           autocomplete="off"
           spellcheck="false"
           dense
-          autofocus
           bottom-slots
           hide-bottom-space
           lazy-rules
@@ -56,6 +60,7 @@
           label="Phone Number *"
           mask="(###) ### - ####"
           type="tel"
+          :rules="[required()]"
         />
 
         <q-input
@@ -64,18 +69,17 @@
           autocomplete="off"
           spellcheck="false"
           dense
-          autofocus
           bottom-slots
           hide-bottom-space
           lazy-rules
           name="email"
           v-model="customer.emailAddress"
-          label="Email *"
-          :rules="[]"
+          label="Email"
+          :rules="[required()]"
           type="email"
         />
 
-        <!-- Appointment -->
+        <!-- AppointmentDate -->
         <q-input
           dense
           autocomplete="off"
@@ -152,7 +156,6 @@
           autocomplete="off"
           spellcheck="false"
           dense
-          autofocus
           bottom-slots
           hide-bottom-space
           lazy-rules
@@ -161,6 +164,7 @@
           label="Year *"
           class="q-pa-none"
           hint="Vehicle Year"
+          :rules="[required(), numberRange(1950, 2023)]"
         />
 
         <q-input
@@ -169,7 +173,6 @@
           autocomplete="off"
           spellcheck="false"
           dense
-          autofocus
           bottom-slots
           hide-bottom-space
           lazy-rules
@@ -177,6 +180,7 @@
           v-model="vehicle.make"
           label="Make *"
           hint="Vehicle Make"
+          :rules="[required(), maxCharAllowable(25)]"
         />
 
         <q-input
@@ -185,7 +189,6 @@
           autocomplete="off"
           spellcheck="false"
           dense
-          autofocus
           bottom-slots
           hide-bottom-space
           lazy-rules
@@ -193,6 +196,7 @@
           v-model="vehicle.model"
           label="Model *"
           hint="Vehicle Model"
+          :rules="[required(), maxCharAllowable(25)]"
         />
       </template>
     </GenericFormCard>
@@ -200,22 +204,82 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import GenericFormCard from "@/components/GenericFormCard.vue";
 import AppointmentDate from "@/models/AppointmentDate";
 import Appointment from "@/models/Appointment";
+import Service from "@/models/Service";
 import Customer from "@/models/Customer";
 import Vehicle from "@/models/Vehicle";
-// import {
-//   maxCharAllowable,
-//   numberRange,
-//   required,
-// } from "@/utils/inputValidation";
+import {
+  maxCharAllowable,
+  numberRange,
+  required,
+} from "@/utils/inputValidation";
+import {
+  db,
+  // doc,
+  addDoc,
+  // setDoc,
+  collection,
+  onSnapshot,
+  // deleteDoc,
+} from "@/firebase/firebase";
+import { getCurrentDateFormatted } from "@/utils/date";
 
 const appointmentDate = reactive(new AppointmentDate());
-const appointment = reactive(new Appointment());
 const customer = reactive(new Customer());
 const vehicle = reactive(new Vehicle());
+const appointment = reactive(new Appointment());
+const services = ref([]);
+
+const formStatus = ref("Appointment Successfully Created");
+const isFormSubmited = ref(true);
+
+const add = () => {
+  appointment.appointmentDate = appointmentDate;
+  appointment.customer = customer;
+  appointment.customer.vehicle = vehicle;
+  console.log(appointment, "APPOINTMENT");
+  const appointmentRef = collection(db, Appointment.collectionName);
+  addDoc(appointmentRef, appointment.toFirestore());
+  isFormSubmited.value = true;
+  formStatus.value = "Appointment Successfully Created";
+};
+
+const resetForm = () => {
+  appointmentDate.dateOfService = getCurrentDateFormatted("MM/DD/YYYY");
+  appointmentDate.startTime = getCurrentDateFormatted("h:mm");
+  customer.firstName = "";
+  customer.lastName = "";
+  customer.phoneNumber = "";
+  customer.emailAddress = "";
+  vehicle.year = "";
+  vehicle.make = "";
+  vehicle.model = "";
+  appointment.customer = customer;
+  appointment.customer.vehicle = vehicle;
+  isFormSubmited.value = false;
+  formStatus.value = "";
+};
+
+onMounted(() => {
+  onSnapshot(
+    collection(db, Service.collectionName).withConverter(Service),
+    (querySnapshot) => {
+      let serviceOption = { label: "", value: "" };
+      services.value = [];
+      querySnapshot.forEach((doc) => {
+        serviceOption.label = doc.data().name;
+        serviceOption.value = doc.data();
+        services.value.push(serviceOption);
+        serviceOption = { label: "", value: "" };
+        // console.log(doc.data(), "CUSTOMER FROM FIRESTORE");
+      });
+      console.log(services.value, "SERVICES");
+    }
+  );
+});
 </script>
 
 <style scoped>

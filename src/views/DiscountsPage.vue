@@ -31,6 +31,8 @@
         @isModalShowing="closeModal"
         @onCancel="closeModal(isCreateShowing.name)"
         @onSubmit="add"
+        :isCancelVisible="true"
+        :isSubmitVisible="true"
       >
         <template #body>
           <q-input
@@ -118,6 +120,8 @@
         submitLabelStyle="negative"
         @onCancel="isDeleteShowing.value = false"
         @onSubmit="remove"
+        :isCancelVisible="true"
+        :isSubmitVisible="true"
       >
         <template #body>
           <div>
@@ -138,6 +142,8 @@
         @isModalShowing="closeModal"
         @onCancel="closeModal(isEditShowing.name)"
         @onSubmit="edit"
+        :isCancelVisible="true"
+        :isSubmitVisible="true"
       >
         <template #body>
           <q-input
